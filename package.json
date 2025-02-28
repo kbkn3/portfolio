@@ -12,7 +12,6 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.1.1",
     "@radix-ui/react-slot": "^1.1.2",
     "@react-router/cloudflare": "^7.2.0",
     "@react-router/fs-routes": "^7.2.0",
