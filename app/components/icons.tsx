@@ -54,14 +54,14 @@ export const Zenn = forwardRef<
   React.ImgHTMLAttributes<HTMLImageElement> & { size?: number }
 >(({ size = 24, className, ...props }, ref) => (
   // biome-ignore lint/a11y/useAltText: <explanation>
-<img 
+  <img
     ref={ref}
-    src="/social/zenn.svg" 
-    alt="Zenn" 
+    src="/social/zenn.svg"
+    alt="Zenn"
     aria-label="Zenn"
-    width={size} 
-    height={size} 
-    className={className} 
+    width={size}
+    height={size}
+    className={className}
     {...props}
   />
 ))
@@ -71,14 +71,14 @@ export const Qiita = forwardRef<
   React.ImgHTMLAttributes<HTMLImageElement> & { size?: number }
 >(({ size = 24, className, ...props }, ref) => (
   // biome-ignore lint/a11y/useAltText: <explanation>
-<img 
+  <img
     ref={ref}
-    src="/social/qiita-icon.png" 
-    alt="Qiita" 
+    src="/social/qiita-icon.png"
+    alt="Qiita"
     aria-label="Qiita"
-    width={size} 
-    height={size} 
-    className={className} 
-    {...props} 
+    width={size}
+    height={size}
+    className={className}
+    {...props}
   />
 ))
