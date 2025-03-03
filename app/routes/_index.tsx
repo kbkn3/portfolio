@@ -123,7 +123,7 @@ export default function Home() {
             href="/about"
             className="text-gray-400 hover:text-gray-200 transition-colors text-lg mt-2 block"
           >
-            Read more →
+            profile →
           </a>
         </div>
       </div>
