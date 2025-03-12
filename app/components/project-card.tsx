@@ -1,12 +1,16 @@
-import { Github } from "~/components/icons"
+import { Github, FileText, Web } from "~/components/icons"
 import { Card, CardContent, CardFooter } from "~/components/ui/card"
 
 export interface ProjectCardProps {
   title: string
   description: string
   image?: string
-  link: string
+  link?: string
   tags: string[]
+  articleTitle?: string
+  articleUrl?: string
+  serviceTitle?: string
+  serviceUrl?: string
 }
 
 export default function ProjectCard({
@@ -15,9 +19,13 @@ export default function ProjectCard({
   image,
   link,
   tags,
+  articleTitle,
+  articleUrl,
+  serviceTitle,
+  serviceUrl,
 }: ProjectCardProps) {
   return (
-    <Card className="overflow-hidden bg-gray-800 hover:bg-gray-700 transition-colors">
+    <Card className="overflow-hidden bg-gray-800 hover:bg-gray-700 transition-colors border-0">
       <div className="relative aspect-video">
         <img
           src={image || "https://placeholder.pics/svg/1600x900"}
@@ -26,7 +34,7 @@ export default function ProjectCard({
         />
       </div>
       <CardContent className="px-4">
-        <h3 className="font-normal text-xl text-white mb-2">{title}</h3>
+        <h3 className="font-normal text-lg text-white mb-2">{title}</h3>
         <p className="text-sm text-gray-400 mb-4">{description}</p>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
@@ -39,16 +47,40 @@ export default function ProjectCard({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="px-4 pt-0">
-        <a
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 text-sm text-white hover:underline"
-        >
-          <Github className="h-4 w-4" />
-          View on GitHub
-        </a>
+      <CardFooter className="px-4 flex flex-col items-start gap-2">
+        {link && (
+          <a
+            href={link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white hover:underline"
+          >
+            <Github className="h-4 w-4" />
+            View on GitHub
+          </a>
+        )}
+        {articleTitle && articleUrl && (
+          <a
+            href={articleUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white hover:underline"
+          >
+            <FileText className="h-4 w-4 flex-shrink-0" />
+            <span className="break-words">{articleTitle}</span>
+          </a>
+        )}
+        {serviceTitle && serviceUrl && (
+          <a
+            href={serviceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white hover:underline"
+          >
+            <Web className="h-4 w-4 flex-shrink-0" />
+            <span className="break-words">{serviceTitle}</span>
+          </a>
+        )}
       </CardFooter>
     </Card>
   )
