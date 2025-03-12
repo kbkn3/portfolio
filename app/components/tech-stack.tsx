@@ -16,11 +16,20 @@ const technologies = [
   },
   {
     category: "Backend",
-    skills: ["Node.js", "Express", "Hono", "Go", "Python", "PostgreSQL", "MySQL", "MemoryDB"],
+    skills: [
+      "Node.js",
+      "Express",
+      "Hono",
+      "Go",
+      "Python",
+      "PostgreSQL",
+      "MySQL",
+      "MemoryDB",
+    ],
   },
   {
     category: "DevOps",
-    skills: ["Docker",  "Cloudflare", "AWS", "CI/CD", "Git"],
+    skills: ["Docker", "Cloudflare", "AWS", "CI/CD", "Git"],
   },
   {
     category: "Tools",

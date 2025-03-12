@@ -2,7 +2,10 @@ import type { Route } from "@/app/routes/+types/_index"
 import { useEffect, useRef, useState } from "react"
 import LinkCard from "~/components/LinkCard"
 import { OnePin, ThreePin, TwoPin } from "~/components/MahjongTile"
+import SectionHeading from "~/components/SectionHeading"
 import { Github, Qiita, Twitter, Zenn } from "~/components/icons"
+import ProjectCard, { type ProjectCardProps } from "~/components/project-card"
+import TechStack from "~/components/tech-stack"
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 export function meta({}: Route.MetaArgs) {
@@ -41,27 +44,6 @@ export default function Home() {
     }
   }, [])
 
-  const mainCards = [
-    {
-      icon: <OnePin className="w-10 h-10 rotate-[20deg]" />,
-      title: "Timeline",
-      description: "活動記録、ブログ、リリース情報など",
-      className: "text-blue-400",
-    },
-    {
-      icon: <TwoPin className="w-10 h-10 rotate-[20deg]" />,
-      title: "Projects",
-      description: "開発したもの",
-      className: "text-indigo-400",
-    },
-    {
-      icon: <ThreePin className="w-10 h-10 rotate-[20deg]" />,
-      title: "Lab",
-      description: "実験的な開発",
-      className: "text-orange-400",
-    },
-  ]
-
   const socialCards = [
     {
       icon: <Twitter className="w-6 h-6 text-white" />,
@@ -87,6 +69,27 @@ export default function Home() {
       href: "https://github.com/kbkn3",
       className: "text-white",
     },
+    {
+      icon: <Github className="w-6 h-6 text-white" />,
+      title: "モダンジャン研究会HP",
+      href: "https://modern-jong.com",
+      className: "text-gray-400",
+    },
+  ]
+
+  const projects: ProjectCardProps[] = [
+    {
+      title: "モダンジャン研究会HP",
+      description: "モダンジャン研究会のHP",
+      link: "https://modern-jong.com",
+      tags: ["WordPress", "PHP", "CSS"],
+    },
+    {
+      title: "雀魂牌譜検討サポーター",
+      description: "雀魂牌譜検討サポーター",
+      link: "https://github.com/kbkn3/mj-analysis-tool",
+      tags: ["TypeScript", "Vue.js", "Tailwind CSS"],
+    },
   ]
 
   return (
@@ -108,61 +111,90 @@ export default function Home() {
           <p className="text-white font-medium">kbkn3</p>
         </div>
       </header>
-
-      {/* Hero Section */}
-      <div>
-        <div ref={heroRef}>
-          <img
-            src="hero_icon.jpg"
-            alt="Profile"
-            className="w-20 h-20 rounded-full mb-8 transition-transform hover:scale-110 object-cover"
-          />
-        </div>
-
-        <div className="max-w-xl mb-12">
-          <h1>
-            麻雀が誰にとっても快適で楽しく遊べる世界を作ることを目指すエンジニア
-          </h1>
-          <a
-            href="/about"
-            className="text-gray-400 hover:text-gray-200 transition-colors text-lg mt-2 block"
-          >
-            profile →
-          </a>
-        </div>
-      </div>
-
-      {/* Sections */}
-      <div className="grid gap-6 w-full max-w-xl mb-16 font-sans">
-        {mainCards.map((card) => (
-          <LinkCard
-            key={card.title}
-            icon={card.icon}
-            title={card.title}
-            description={card.description}
-            bgColor="bg-gray-800"
-            className={card.className}
-            href={`/${card.title.toLowerCase()}`}
-          />
-        ))}
-      </div>
-
-      {/* Social Links */}
-      <div className="grid gap-6 w-full max-w-xl">
-        <h2 className="text-xl font-bold text-gray-400 mb-2">Links</h2>
-        <div className="space-y-4">
-          {socialCards.map((card) => (
-            <LinkCard
-              key={card.title}
-              href={card.href}
-              icon={card.icon}
-              title={card.title}
-              bgColor="bg-gray-800"
-              className={card.className}
+      <main className="container px-4 md:px-6">
+        {/* Hero Section */}
+        <div>
+          <div ref={heroRef}>
+            <img
+              src="hero_icon.jpg"
+              alt="Profile"
+              className="w-20 h-20 rounded-full mb-8 transition-transform hover:scale-110 object-cover"
             />
-          ))}
+          </div>
+
+          <div className="max-w-xl mb-12">
+            <h1>
+              麻雀が誰にとっても快適で楽しく遊べる世界を作ることを目指すエンジニア
+            </h1>
+            <a
+              href="/about"
+              className="text-gray-400 hover:text-gray-200 transition-colors text-lg mt-2 block"
+            >
+              profile →
+            </a>
+          </div>
         </div>
-      </div>
+
+        {/* Sections */}
+        <section id="timeline" className="py-4 md:py-8 lg:py-12">
+          <div className="container">
+            <SectionHeading
+              title="Timeline"
+              icon={<OnePin className="w-8 h-8 rotate-[20deg]" />}
+              className="text-blue-400"
+            />
+          </div>
+        </section>
+        <section id="projects" className="py-4 md:py-8 lg:py-12">
+          <div className="container">
+            <SectionHeading
+              title="Projects"
+              icon={<TwoPin className="w-8 h-8 rotate-[20deg]" />}
+              className="text-indigo-400"
+            />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project.title}
+                  title={project.title}
+                  description={project.description}
+                  image={project.image}
+                  link={project.link}
+                  tags={project.tags}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="techstack" className="py-4 md:py-8 lg:py-12">
+          <div className="container">
+            <SectionHeading
+              title="TechStack"
+              icon={<ThreePin className="w-8 h-8 rotate-[20deg]" />}
+              className="text-orange-400"
+            />
+          </div>
+          <TechStack />
+        </section>
+
+        {/* Social Links */}
+        <div className="grid gap-6 w-full max-w-xl">
+          <h2 className="text-xl font-bold text-gray-400 mb-2">Links</h2>
+          <div className="space-y-4">
+            {socialCards.map((card) => (
+              <LinkCard
+                key={card.title}
+                href={card.href}
+                icon={card.icon}
+                title={card.title}
+                bgColor="bg-gray-800"
+                className={card.className}
+              />
+            ))}
+          </div>
+        </div>
+      </main>
       <footer className="text-center py-6 text-gray-500 text-sm">
         <p>© 2025 kbkn3</p>
         <a href="/terms" className="hover:text-gray-300">

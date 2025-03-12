@@ -1,10 +1,10 @@
 import { Github } from "~/components/icons"
 import { Card, CardContent, CardFooter } from "~/components/ui/card"
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
   title: string
   description: string
-  image: string
+  image?: string
   link: string
   tags: string[]
 }
@@ -20,7 +20,7 @@ export default function ProjectCard({
     <Card className="overflow-hidden">
       <div className="relative aspect-video">
         <img
-          src={image || "/placeholder.svg"}
+          src={image || "https://placeholder.pics/svg/1600x900"}
           alt={title}
           className="object-cover transition-transform hover:scale-105"
         />
