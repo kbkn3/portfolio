@@ -146,7 +146,7 @@ export default function Home() {
           </div>
         </section>
         <section id="projects" className="py-4 md:py-8 lg:py-12">
-          <div className="container">
+          <div>
             <SectionHeading
               title="Projects"
               icon={<TwoPin className="w-8 h-8 rotate-[20deg]" />}
@@ -168,7 +168,7 @@ export default function Home() {
         </section>
 
         <section id="techstack" className="py-4 md:py-8 lg:py-12">
-          <div className="container">
+          <div>
             <SectionHeading
               title="TechStack"
               icon={<ThreePin className="w-8 h-8 rotate-[20deg]" />}
