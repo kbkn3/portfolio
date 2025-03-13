@@ -18,8 +18,11 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
+type TabType = "timeline" | "portfolio";
+
 export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(false)
+  const [activeTab, setActiveTab] = useState<TabType>("timeline")
   const heroRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -92,14 +95,74 @@ export default function Home() {
     },
   ]
 
+  // タブを切り替える関数
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab)
+  }
+
+  // アクティブなタブに応じたコンテンツを表示する関数
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "timeline":
+        return <TimelineSection />
+      case "portfolio":
+        return (
+          <>
+            <section id="experience" className="py-4 md:py-8 lg:py-12">
+              <h2 className="text-2xl font-bold mb-6 text-blue-400">Experience</h2>
+              {/* ここにExperienceの内容を追加 */}
+              <div className="space-y-4">
+                <div className="bg-gray-800 p-4 rounded-lg">
+                  <h3 className="text-xl font-semibold">経験内容をここに追加</h3>
+                  <p className="text-gray-400">詳細な説明をここに追加</p>
+                </div>
+              </div>
+            </section>
+            <ProjectsSection projects={projects} />
+            <TechStackSection />
+          </>
+        )
+      default:
+        return <TimelineSection />
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-300 flex flex-col px-6 py-16 font-sans">
       <Header visible={headerVisible} />
       <main className="container px-4 md:px-6">
         <HeroSection heroRef={heroRef} />
-        <TimelineSection />
-        <ProjectsSection projects={projects} />
-        <TechStackSection />
+        
+        {/* タブナビゲーション */}
+        <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
+          <button
+            type="button"
+            className={`px-4 py-2 font-medium rounded-t-lg transition-colors ${
+              activeTab === "timeline"
+                ? "bg-gray-800 text-blue-400 border-b-2 border-blue-400"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+            onClick={() => handleTabChange("timeline")}
+          >
+            Timeline
+          </button>
+          <button
+            type="button"
+            className={`px-4 py-2 font-medium rounded-t-lg transition-colors ${
+              activeTab === "portfolio"
+                ? "bg-gray-800 text-indigo-400 border-b-2 border-indigo-400"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+            onClick={() => handleTabChange("portfolio")}
+          >
+            Portfolio
+          </button>
+        </div>
+        
+        {/* タブコンテンツ */}
+        <div className="py-4">
+          {renderTabContent()}
+        </div>
       </main>
       <Footer />
     </div>
