@@ -1,4 +1,4 @@
-import { Github, FileText, Web } from "~/components/icons"
+import { FileText, Github, Web } from "~/components/icons"
 import { Card, CardContent, CardFooter } from "~/components/ui/card"
 
 export interface ProjectCardProps {

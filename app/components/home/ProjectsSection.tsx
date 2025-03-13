@@ -1,9 +1,9 @@
-import { TwoPin } from "~/components/MahjongTile";
-import SectionHeading from "~/components/SectionHeading";
-import ProjectCard, { type ProjectCardProps } from "~/components/project-card";
+import { TwoPin } from "~/components/MahjongTile"
+import SectionHeading from "~/components/SectionHeading"
+import ProjectCard, { type ProjectCardProps } from "~/components/project-card"
 
 interface ProjectsSectionProps {
-  projects: ProjectCardProps[];
+  projects: ProjectCardProps[]
 }
 
 const ProjectsSection = ({ projects }: ProjectsSectionProps) => (
@@ -32,6 +32,6 @@ const ProjectsSection = ({ projects }: ProjectsSectionProps) => (
       </div>
     </div>
   </section>
-);
+)
 
-export default ProjectsSection; 
+export default ProjectsSection

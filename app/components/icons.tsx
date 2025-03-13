@@ -96,7 +96,10 @@ export const QiitaWhite = forwardRef<
     width={size}
     height={size}
     className={className}
-    style={{ filter: "brightness(0) saturate(100%) invert(67%) sepia(13%) saturate(246%) hue-rotate(185deg) brightness(90%) contrast(87%)" }}
+    style={{
+      filter:
+        "brightness(0) saturate(100%) invert(67%) sepia(13%) saturate(246%) hue-rotate(185deg) brightness(90%) contrast(87%)",
+    }}
     {...props}
   />
 ))

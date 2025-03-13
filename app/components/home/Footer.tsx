@@ -5,6 +5,6 @@ const Footer = () => (
       Terms and Privacy
     </a>
   </footer>
-);
+)
 
-export default Footer; 
+export default Footer

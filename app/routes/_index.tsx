@@ -1,14 +1,15 @@
 import type { Route } from "@/app/routes/+types/_index"
-import type { ProjectCardProps } from "~/components/project-card"
 import { useEffect, useRef, useState } from "react"
 import {
+  Footer,
   Header,
   HeroSection,
   ProjectsSection,
-  TimelineSection,
   TechStackSection,
-  Footer
+  TimelineSection,
+  ExperienceSection,
 } from "~/components/home"
+import type { ProjectCardProps } from "~/components/project-card"
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 export function meta({}: Route.MetaArgs) {
@@ -18,7 +19,7 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-type TabType = "timeline" | "portfolio";
+type TabType = "timeline" | "portfolio"
 
 export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(false)
@@ -60,12 +61,15 @@ export default function Home() {
     },
     {
       title: "雀魂牌譜検討サポーター",
-      description: "雀魂の牌譜検討で簡単にNAGAやmjai-reviewer(Mortal/Akochan)を利用するための非公式拡張機能",
+      description:
+        "雀魂の牌譜検討で簡単にNAGAやmjai-reviewer(Mortal/Akochan)を利用するための非公式拡張機能",
       link: "https://github.com/kbkn3/MahjongSoul-review-supporter",
-      articleTitle: "雀魂でもNAGA/Mortalでワンクリック牌譜検討！拡張機能リリースしました。",
+      articleTitle:
+        "雀魂でもNAGA/Mortalでワンクリック牌譜検討！拡張機能リリースしました。",
       articleUrl: "https://modern-jan.com/2022/07/19/mjrs/",
       serviceTitle: "雀魂牌譜検討サポーター - Chrome ウェブストア",
-      serviceUrl: "https://chromewebstore.google.com/detail/%E9%9B%80%E9%AD%82%E7%89%8C%E8%AD%9C%E6%A4%9C%E8%A8%8E%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC/kdmfnkdgpialmejpgflfllkjakolamcc?hl=ja",
+      serviceUrl:
+        "https://chromewebstore.google.com/detail/%E9%9B%80%E9%AD%82%E7%89%8C%E8%AD%9C%E6%A4%9C%E8%A8%8E%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC/kdmfnkdgpialmejpgflfllkjakolamcc?hl=ja",
       tags: ["TypeScript", "Vue.js", "Tailwind CSS"],
     },
     {
@@ -82,12 +86,14 @@ export default function Home() {
       articleTitle: "告知Twitter",
       articleUrl: "https://x.com/kbkn3/status/1734170723370008605",
       serviceTitle: "Tap Analyzer - Chrome Web Store",
-      serviceUrl: "https://chromewebstore.google.com/detail/tap-analyzer/omacmfialjnoognohplbhhbgpeillekn?hl=ja",
+      serviceUrl:
+        "https://chromewebstore.google.com/detail/tap-analyzer/omacmfialjnoognohplbhhbgpeillekn?hl=ja",
       tags: ["TypeScript", "Next.js", "Tailwind CSS", "AWS"],
     },
     {
       title: "現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変 資料集",
-      description: "このリポジトリは、小説家になろうの小説「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」のファンサイト",
+      description:
+        "このリポジトリは、小説家になろうの小説「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」のファンサイト",
       link: "https://github.com/kbkn3/gensya-akuyaku-source",
       serviceTitle: "サイトを見る",
       serviceUrl: "https://gensya-akuyaku-source.pages.dev/",
@@ -108,16 +114,7 @@ export default function Home() {
       case "portfolio":
         return (
           <>
-            <section id="experience" className="py-4 md:py-8 lg:py-12">
-              <h2 className="text-2xl font-bold mb-6 text-blue-400">Experience</h2>
-              {/* ここにExperienceの内容を追加 */}
-              <div className="space-y-4">
-                <div className="bg-gray-800 p-4 rounded-lg">
-                  <h3 className="text-xl font-semibold">経験内容をここに追加</h3>
-                  <p className="text-gray-400">詳細な説明をここに追加</p>
-                </div>
-              </div>
-            </section>
+            <ExperienceSection />
             <ProjectsSection projects={projects} />
             <TechStackSection />
           </>
@@ -132,7 +129,7 @@ export default function Home() {
       <Header visible={headerVisible} />
       <main className="container px-4 md:px-6">
         <HeroSection heroRef={heroRef} />
-        
+
         {/* タブナビゲーション */}
         <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
           <button
@@ -158,11 +155,9 @@ export default function Home() {
             Portfolio
           </button>
         </div>
-        
+
         {/* タブコンテンツ */}
-        <div className="py-4">
-          {renderTabContent()}
-        </div>
+        <div className="py-4">{renderTabContent()}</div>
       </main>
       <Footer />
     </div>

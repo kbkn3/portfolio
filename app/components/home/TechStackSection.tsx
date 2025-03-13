@@ -1,6 +1,6 @@
-import { ThreePin } from "~/components/MahjongTile";
-import SectionHeading from "~/components/SectionHeading";
-import TechStack from "~/components/tech-stack";
+import { ThreePin } from "~/components/MahjongTile"
+import SectionHeading from "~/components/SectionHeading"
+import TechStack from "~/components/tech-stack"
 
 const TechStackSection = () => (
   <section id="techstack" className="py-4 md:py-8 lg:py-12">
@@ -13,6 +13,6 @@ const TechStackSection = () => (
     </div>
     <TechStack />
   </section>
-);
+)
 
-export default TechStackSection; 
+export default TechStackSection

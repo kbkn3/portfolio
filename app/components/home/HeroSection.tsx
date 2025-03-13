@@ -1,8 +1,8 @@
-import type { FC, RefObject } from "react";
-import SocialLinks from "./SocialLinks";
+import type { FC, RefObject } from "react"
+import SocialLinks from "./SocialLinks"
 
 interface HeroSectionProps {
-  heroRef: RefObject<HTMLDivElement | null>;
+  heroRef: RefObject<HTMLDivElement | null>
 }
 
 const HeroSection: FC<HeroSectionProps> = ({ heroRef }) => (
@@ -22,6 +22,6 @@ const HeroSection: FC<HeroSectionProps> = ({ heroRef }) => (
     </div>
     <SocialLinks />
   </div>
-);
+)
 
-export default HeroSection; 
+export default HeroSection

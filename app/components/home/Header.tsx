@@ -1,7 +1,7 @@
-import type { FC } from "react";
+import type { FC } from "react"
 
 interface HeaderProps {
-  visible: boolean;
+  visible: boolean
 }
 
 const Header: FC<HeaderProps> = ({ visible }) => (
@@ -21,6 +21,6 @@ const Header: FC<HeaderProps> = ({ visible }) => (
       <p className="text-white font-medium">kbkn3</p>
     </div>
   </header>
-);
+)
 
-export default Header; 
+export default Header

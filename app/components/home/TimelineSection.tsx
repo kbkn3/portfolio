@@ -1,5 +1,5 @@
-import { OnePin } from "~/components/MahjongTile";
-import SectionHeading from "~/components/SectionHeading";
+import { OnePin } from "~/components/MahjongTile"
+import SectionHeading from "~/components/SectionHeading"
 
 const TimelineSection = () => (
   <section id="timeline" className="py-4 md:py-8 lg:py-12">
@@ -11,6 +11,6 @@ const TimelineSection = () => (
       />
     </div>
   </section>
-);
+)
 
-export default TimelineSection; 
+export default TimelineSection
