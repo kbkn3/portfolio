@@ -10,7 +10,7 @@ import {
   ExperienceSection,
 } from "~/components/home"
 import type { ProjectCardProps } from "~/components/project-card"
-import { useSearchParams } from "react-router"
+import { useSearchParams, useViewTransitionState } from "react-router"
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 export function meta({}: Route.MetaArgs) {
@@ -27,6 +27,11 @@ export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = (searchParams.get("tab") as TabType) || "timeline"
   const heroRef = useRef<HTMLDivElement | null>(null)
+  
+  // タイムラインタブへの遷移状態を取得
+  const isTimelineTransitioning = useViewTransitionState("?tab=timeline")
+  // ポートフォリオタブへの遷移状態を取得
+  const isPortfolioTransitioning = useViewTransitionState("?tab=portfolio")
 
   useEffect(() => {
     // URLパラメータが存在しない場合、デフォルトタブを設定
@@ -118,21 +123,41 @@ export default function Home() {
 
   // タブを切り替える関数
   const handleTabChange = (tab: TabType) => {
-    setSearchParams({ tab })
+    // View Transitionを使用してタブを切り替える
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        setSearchParams({ tab })
+      })
+    } else {
+      // フォールバック（View Transition APIがサポートされていない場合）
+      setSearchParams({ tab })
+    }
   }
 
   // アクティブなタブに応じたコンテンツを表示する関数
   const renderTabContent = () => {
     switch (activeTab) {
       case "timeline":
-        return <TimelineSection />
+        return (
+          <div 
+            style={{ 
+              viewTransitionName: isTimelineTransitioning ? "timeline-content" : "none" 
+            }}
+          >
+            <TimelineSection />
+          </div>
+        )
       case "portfolio":
         return (
-          <>
+          <div 
+            style={{ 
+              viewTransitionName: isPortfolioTransitioning ? "portfolio-content" : "none" 
+            }}
+          >
             <ExperienceSection />
             <ProjectsSection projects={projects} />
             <TechStackSection />
-          </>
+          </div>
         )
       default:
         return <TimelineSection />
@@ -149,30 +174,38 @@ export default function Home() {
         <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
           <button
             type="button"
-            className={`px-4 py-2 font-medium rounded-t-lg transition-colors ${
+            className={`px-4 py-2 font-medium rounded-t-lg transition-colors duration-300 ${
               activeTab === "timeline"
                 ? "bg-gray-800 text-blue-400 border-b-2 border-blue-400"
                 : "text-gray-400 hover:text-gray-200"
             }`}
             onClick={() => handleTabChange("timeline")}
+            style={{
+              viewTransitionName: isTimelineTransitioning ? "timeline-tab" : "none"
+            }}
           >
             Timeline
           </button>
           <button
             type="button"
-            className={`px-4 py-2 font-medium rounded-t-lg transition-colors ${
+            className={`px-4 py-2 font-medium rounded-t-lg transition-colors duration-300 ${
               activeTab === "portfolio"
                 ? "bg-gray-800 text-indigo-400 border-b-2 border-indigo-400"
                 : "text-gray-400 hover:text-gray-200"
             }`}
             onClick={() => handleTabChange("portfolio")}
+            style={{
+              viewTransitionName: isPortfolioTransitioning ? "portfolio-tab" : "none"
+            }}
           >
             Portfolio
           </button>
         </div>
 
         {/* タブコンテンツ */}
-        <div className="py-4">{renderTabContent()}</div>
+        <div className="py-4">
+          {renderTabContent()}
+        </div>
       </main>
       <Footer />
     </div>
