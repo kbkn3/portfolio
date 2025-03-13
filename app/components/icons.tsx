@@ -83,6 +83,24 @@ export const Qiita = forwardRef<
   />
 ))
 
+export const QiitaWhite = forwardRef<
+  HTMLImageElement,
+  React.ImgHTMLAttributes<HTMLImageElement> & { size?: number }
+>(({ size = 24, className, ...props }, ref) => (
+  // biome-ignore lint/a11y/useAltText: <explanation>
+  <img
+    ref={ref}
+    src="/social/qiita-white-icon.png"
+    alt="Qiita"
+    aria-label="Qiita"
+    width={size}
+    height={size}
+    className={className}
+    style={{ filter: "brightness(0) saturate(100%) invert(67%) sepia(13%) saturate(246%) hue-rotate(185deg) brightness(90%) contrast(87%)" }}
+    {...props}
+  />
+))
+
 export const FileText = forwardRef<
   SVGSVGElement,
   SVGProps<SVGSVGElement> & { size?: number }
