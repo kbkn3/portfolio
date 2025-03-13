@@ -74,10 +74,13 @@ const ExperienceSection = () => {
                 
                 {/* コンテンツ */}
                 <div className="ml-10">
-                  <div className={`p-4 rounded-lg shadow-md bg-gray-800 border-t-4 ${exp.color}`}>
-                    <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
-                    <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
-                    <p className="text-sm text-gray-300">{exp.description}</p>
+                  <div className="rounded-lg shadow-md bg-gray-800 overflow-hidden">
+                    <div className={`h-2 ${exp.color}`} />
+                    <div className="p-4">
+                      <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
+                      <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
+                      <p className="text-sm text-gray-300">{exp.description}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,10 +104,13 @@ const ExperienceSection = () => {
                   
                   {/* コンテンツ */}
                   <div className="pr-12">
-                    <div className={`p-4 rounded-lg shadow-md bg-gray-800 border-t-4 ${exp.color}`}>
-                      <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
-                      <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
-                      <p className="text-sm text-gray-300">{exp.description}</p>
+                    <div className="rounded-lg shadow-md bg-gray-800 overflow-hidden">
+                      <div className={`h-2 ${exp.color}`} />
+                      <div className="p-4">
+                        <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
+                        <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
+                        <p className="text-sm text-gray-300">{exp.description}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -120,10 +126,13 @@ const ExperienceSection = () => {
                   
                   {/* コンテンツ */}
                   <div className="pl-12">
-                    <div className={`p-4 rounded-lg shadow-md bg-gray-800 border-t-4 ${exp.color}`}>
-                      <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
-                      <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
-                      <p className="text-sm text-gray-300">{exp.description}</p>
+                    <div className="rounded-lg shadow-md bg-gray-800 overflow-hidden">
+                      <div className={`h-2 ${exp.color}`} />
+                      <div className="p-4">
+                        <div className="text-sm text-gray-400 mb-1">{exp.period}</div>
+                        <h3 className="text-lg font-medium text-white mb-2">{exp.title}</h3>
+                        <p className="text-sm text-gray-300">{exp.description}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
