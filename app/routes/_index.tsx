@@ -10,6 +10,7 @@ import {
   ExperienceSection,
 } from "~/components/home"
 import type { ProjectCardProps } from "~/components/project-card"
+import { useSearchParams } from "react-router"
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 export function meta({}: Route.MetaArgs) {
@@ -23,8 +24,22 @@ type TabType = "timeline" | "portfolio"
 
 export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(false)
-  const [activeTab, setActiveTab] = useState<TabType>("timeline")
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeTab = (searchParams.get("tab") as TabType) || "timeline"
   const heroRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    // URLパラメータが存在しない場合、デフォルトタブを設定
+    if (!searchParams.has("tab")) {
+      setSearchParams({ tab: "timeline" }, { replace: true })
+    } else {
+      // 無効なタブパラメータの場合、デフォルトに修正
+      const tab = searchParams.get("tab")
+      if (tab !== "timeline" && tab !== "portfolio") {
+        setSearchParams({ tab: "timeline" }, { replace: true })
+      }
+    }
+  }, [searchParams, setSearchParams])
 
   useEffect(() => {
     // Intersection Observerの設定
@@ -103,7 +118,7 @@ export default function Home() {
 
   // タブを切り替える関数
   const handleTabChange = (tab: TabType) => {
-    setActiveTab(tab)
+    setSearchParams({ tab })
   }
 
   // アクティブなタブに応じたコンテンツを表示する関数
