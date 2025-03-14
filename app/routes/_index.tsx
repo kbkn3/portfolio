@@ -75,6 +75,7 @@ export default function Home() {
     {
       title: "モダンジャン研究会HP",
       description: "モダンジャン研究会のHP",
+      image: "/projects/modern-jan.com_.png",
       serviceTitle: "サイトを見る",
       serviceUrl: "https://modern-jong.com",
       tags: ["WordPress", "PHP", "CSS"],
@@ -83,6 +84,7 @@ export default function Home() {
       title: "雀魂牌譜検討サポーター",
       description:
         "雀魂の牌譜検討で簡単にNAGAやmjai-reviewer(Mortal/Akochan)を利用するための非公式拡張機能",
+      image: "https://github.com/kbkn3/MahjongSoul-review-supporter/blob/develop/imgs/Animation.gif?raw=true",
       link: "https://github.com/kbkn3/MahjongSoul-review-supporter",
       articleTitle:
         "雀魂でもNAGA/Mortalでワンクリック牌譜検討！拡張機能リリースしました。",
@@ -95,6 +97,7 @@ export default function Home() {
     {
       title: "ML-POG（現在サービス終了）",
       description: "Mリーグのオリジナルチームを作って応援するためのサイト",
+      image: "/projects/ml-pog.png",
       articleTitle: "告知Twitter",
       articleUrl: "https://x.com/kbkn3/status/1734170723370008605",
       tags: ["TypeScript", "Next.js", "Tailwind CSS", "Auth.js", "AWS"],
@@ -102,6 +105,7 @@ export default function Home() {
     {
       title: "TapAnalyzer",
       description: "TapTapのチャートを分析するためのサイト",
+      image: "/projects/tapAnalyzer.png",
       link: "https://github.com/kbkn3/predict-touch-accuracy-ext",
       articleTitle: "告知Twitter",
       articleUrl: "https://x.com/kbkn3/status/1734170723370008605",
@@ -114,6 +118,7 @@ export default function Home() {
       title: "現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変 資料集",
       description:
         "このリポジトリは、小説家になろうの小説「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」のファンサイト",
+      image: "/projects/gensya-akuyaku-source.pages.dev_.png",
       link: "https://github.com/kbkn3/gensya-akuyaku-source",
       serviceTitle: "サイトを見る",
       serviceUrl: "https://gensya-akuyaku-source.pages.dev/",
