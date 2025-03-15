@@ -35,7 +35,7 @@ const TimelineSection = ({ timelineItems = [], error }: TimelineSectionProps) =>
         <SectionHeading
           title="Timeline"
           icon={<OnePin className="w-8 h-8 rotate-[20deg]" />}
-          className="text-blue-400 mb-8"
+          className="text-blue-400"
         />
 
         {loading ? (

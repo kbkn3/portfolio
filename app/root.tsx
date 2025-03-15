@@ -10,6 +10,13 @@ import {
 import type { Route } from "./+types/root"
 import "./app.css"
 
+/**
+ * ルートローダー関数
+ */
+export function loader() {
+  return { ok: true };
+}
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {

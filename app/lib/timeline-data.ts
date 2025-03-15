@@ -40,10 +40,22 @@ const releaseItems: TimelineItem[] = [
     title: "Mリーグのオリジナルチームを作って応援するためのサイトを作りました！\n\nまだ身内でテスト運用しているので怪しい部分はありますが、是非お使い頂きたいです。\n\nhttps://ml-pog.com\n\nご意見やエラー報告は問い合わせフォームやDMから！セミファイナル・ファイナルにも対応予定です！#Mリーグ",
     description: "Mリーグのオリジナルチームを作って応援するためのサイト",
     url: "https://x.com/kbkn3/status/1734170723370008605",
-    date: "2024-09-18T09:15:00Z",
+    date: "2023-12-11T11:18:00Z",
+    imageUrl: 'projects/ml-pog.png',
     siteName: "twitter",
     showAsTweet: true, // Twitter風UIで表示する
   },
+  {
+    id: generateRandomId(),
+    type: "release",
+    title: "Yahoo（@lycorptech_jp）から公開されたスマートフォンの画面上のタップの成功率を表示するツール「Tappy」(https://tappy.yahoo.co.jp)にインスパイアされたChrome拡張機能を作りました。\n\nCookieなどが必要な場合でも使いたかったのでTechBlogを参考に再現…！#UX #UI #a11y",
+    description: "Mリーグのオリジナルチームを作って応援するためのサイト",
+    url: "https://x.com/kbkn3/status/1762030304695554279",
+    date: "2024-02-26T08:22:00Z",
+    imageUrl: 'projects/tapAnalyzer.png',
+    siteName: "twitter",
+    showAsTweet: true, // Twitter風UIで表示する
+  }
 ];
 
 const contributionItems: TimelineItem[] = [
