@@ -28,9 +28,6 @@
 	--input: oklch(0.922 0 0);
 	--ring: oklch(0.87 0 0);
 	--radius: 0.625rem;
-	
-	/* View Transition variables */
-	--tab-transition-duration: 0.3s;
 }
 
 .dark {
@@ -96,31 +93,5 @@ body {
 
 	@media (prefers-color-scheme: dark) {
 		color-scheme: dark;
-	}
-}
-
-/* View Transition API styles */
-@keyframes fadeIn { 
-	from { opacity: 0; } 
-	to { opacity: 1; } 
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	::view-transition-group(timeline-content) {
-		animation: 100ms ease both fade-in;
-	}
-
-	::view-transition-group(portfolio-content) {
-		animation: 100ms ease both fade-in;
-	}
-
-	::view-transition-old(timeline-content),
-	::view-transition-old(portfolio-content) {
-		opacity: 0;
-	}
-
-	::view-transition-new(timeline-content),
-	::view-transition-new(portfolio-content) {
-		animation: 300ms ease both fadeIn;
 	}
 }

@@ -10,7 +10,7 @@ import {
   ExperienceSection,
 } from "~/components/home"
 import type { ProjectCardProps } from "~/components/project-card"
-import { useLoaderData, useSearchParams, useViewTransitionState } from "react-router"
+import { useLoaderData, useSearchParams } from "react-router"
 import { fetchOgData } from "~/lib/og-scraper"
 import { TIMELINE_ITEMS } from "~/lib/timeline-data"
 
@@ -78,11 +78,6 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement | null>(null)
   const { timelineItems, error } = useLoaderData<typeof loader>()
   
-  // タイムラインタブへの遷移状態を取得
-  const isTimelineTransitioning = useViewTransitionState("?tab=timeline")
-  // ポートフォリオタブへの遷移状態を取得
-  const isPortfolioTransitioning = useViewTransitionState("?tab=portfolio")
-
   useEffect(() => {
     // URLパラメータが存在しない場合、デフォルトタブを設定
     if (!searchParams.has("tab")) {
@@ -178,15 +173,11 @@ export default function Home() {
 
   // タブを切り替える関数
   const handleTabChange = (tab: TabType) => {
-    // View Transitionを使用してタブを切り替える
-    if (document.startViewTransition) {
-      document.startViewTransition(() => {
-        setSearchParams({ tab })
-      })
-    } else {
-      // フォールバック（View Transition APIがサポートされていない場合）
-      setSearchParams({ tab })
-    }
+    // 既に選択されているタブの場合は何もしない
+    if (activeTab === tab) return;
+    
+    // 単純にURLパラメータを更新
+    setSearchParams({ tab });
   }
 
   // アクティブなタブに応じたコンテンツを表示する関数
@@ -194,21 +185,13 @@ export default function Home() {
     switch (activeTab) {
       case "timeline":
         return (
-          <div 
-            style={{ 
-              viewTransitionName: isTimelineTransitioning ? "timeline-content" : "none" 
-            }}
-          >
+          <div className="w-full">
             <TimelineSection timelineItems={timelineItems} error={error} />
           </div>
         )
       case "portfolio":
         return (
-          <div 
-            style={{ 
-              viewTransitionName: isPortfolioTransitioning ? "portfolio-content" : "none" 
-            }}
-          >
+          <div className="w-full">
             <ExperienceSection />
             <ProjectsSection projects={projects} />
             <TechStackSection />
@@ -229,36 +212,30 @@ export default function Home() {
         <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
           <button
             type="button"
-            className={`px-4 py-2 font-medium rounded-t-lg transition-colors duration-300 ${
+            className={`px-4 py-2 font-medium rounded-t-lg ${
               activeTab === "timeline"
                 ? "bg-gray-800 text-blue-400 border-b-2 border-blue-400"
                 : "text-gray-400 hover:text-gray-200"
             }`}
             onClick={() => handleTabChange("timeline")}
-            style={{
-              viewTransitionName: isTimelineTransitioning ? "timeline-tab" : "none"
-            }}
           >
             Timeline
           </button>
           <button
             type="button"
-            className={`px-4 py-2 font-medium rounded-t-lg transition-colors duration-300 ${
+            className={`px-4 py-2 font-medium rounded-t-lg ${
               activeTab === "portfolio"
                 ? "bg-gray-800 text-indigo-400 border-b-2 border-indigo-400"
                 : "text-gray-400 hover:text-gray-200"
             }`}
             onClick={() => handleTabChange("portfolio")}
-            style={{
-              viewTransitionName: isPortfolioTransitioning ? "portfolio-tab" : "none"
-            }}
           >
             Portfolio
           </button>
         </div>
 
         {/* タブコンテンツ */}
-        <div className="py-4">
+        <div className="py-4 relative min-h-[300px]">
           {renderTabContent()}
         </div>
       </main>
