@@ -30,6 +30,15 @@ export type OgData = {
  * @returns Open Graph情報
  */
 export async function fetchOgData(url: string): Promise<OgData> {
+  // x.comドメインの場合は取得をスキップ
+  if (url.includes('x.com') || url.includes('twitter.com')) {
+    return {
+      requestUrl: url,
+      success: false,
+      error: 'x.com domains are skipped'
+    };
+  }
+
   try {
     const options = { url };
     const { result } = await ogs(options);
