@@ -55,7 +55,7 @@ export function loader() {
       serviceTitle: "Tap Analyzer - Chrome Web Store",
       serviceUrl:
         "https://chromewebstore.google.com/detail/tap-analyzer/omacmfialjnoognohplbhhbgpeillekn?hl=ja",
-      tags: ["TypeScript", "Next.js", "Tailwind CSS", "AWS"],
+      tags: ["TypeScript", "React", "Tailwind CSS"],
     },
     {
       title: "現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変 資料集",
@@ -65,7 +65,7 @@ export function loader() {
       link: "https://github.com/kbkn3/gensya-akuyaku-source",
       serviceTitle: "サイトを見る",
       serviceUrl: "https://gensya-akuyaku-source.pages.dev/",
-      tags: ["TypeScript", "Next.js", "Tailwind CSS", "AWS"],
+      tags: ["TypeScript", "HonoX", "Tailwind CSS", "Cloudflare Pages"],
     },
   ]
   
