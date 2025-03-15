@@ -23,7 +23,7 @@ const TweetCard = ({
   });
 
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors p-4 max-w-2xl">
+    <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors p-4 w-full">
       <div className="flex items-start">
         {/* アバターアイコン */}
         <div className="flex-shrink-0 mr-3">
@@ -37,16 +37,16 @@ const TweetCard = ({
           </div>
         </div>
         
-        <div className="flex-grow">
+        <div className="flex-grow overflow-hidden">
           {/* ヘッダー */}
           <div className="flex items-center">
-            <span className="font-bold text-white mr-2">{name}</span>
-            <span className="text-gray-400 text-sm">@{username}</span>
-            <span className="text-gray-500 text-xs ml-auto">{formattedDate}</span>
+            <span className="font-bold text-white mr-2 truncate">{name}</span>
+            <span className="text-gray-400 text-sm truncate">@{username}</span>
+            <span className="text-gray-500 text-xs ml-auto flex-shrink-0">{formattedDate}</span>
           </div>
           
           {/* ツイート本文 */}
-          <div className="mt-2 text-white whitespace-pre-wrap">
+          <div className="mt-2 text-white whitespace-pre-wrap break-words">
             <TextWithUrls text={text} />
           </div>
           

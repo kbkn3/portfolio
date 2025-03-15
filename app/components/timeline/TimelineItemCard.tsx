@@ -45,7 +45,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
             href={item.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="block"
+            className="block w-full"
           >
             <TweetCard 
               name={item.siteName || "こばけん"}
@@ -76,7 +76,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
         <ActionIcon type={item.type} />
       </div>
       
-      <div className="flex-grow">
+      <div className="flex-grow overflow-hidden">
         {/* カード上部の情報 */}
         <div className="flex items-center gap-2 mb-2">
           {actionType === "released" ? (
@@ -102,7 +102,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
           href={item.url} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="block max-w-2xl"
+          className="block w-full"
         >
           <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-gray-500 transition-colors">
             <div className="p-4">
@@ -110,21 +110,21 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
                 {item.title}
               </h3>
               
-              <div className="mt-2 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-2 overflow-hidden">
                 {actionType === "released" ? (
                   <>
-                    <SiteIcon url={item.url} size={16} />
-                    <span className="text-sm text-gray-400 truncate">{item.url}</span>
+                    <SiteIcon url={item.url} size={16} className="flex-shrink-0" />
+                    <span className="text-sm text-gray-400 truncate max-w-full">{item.url}</span>
                   </>
                 ) : actionType === "post" ? (
                   <>
-                    <SiteIcon url={item.url} size={16} />
+                    <SiteIcon url={item.url} size={16} className="flex-shrink-0" />
                     <span className="text-sm text-gray-400">{formattedDate}</span>
                   </>
                 ) : (
                   <>
-                    <SiteIcon url={item.url} size={16} />
-                    <span className="text-sm text-gray-400 truncate">{item.url}</span>
+                    <SiteIcon url={item.url} size={16} className="flex-shrink-0" />
+                    <span className="text-sm text-gray-400 truncate max-w-full">{item.url}</span>
                   </>
                 )}
               </div>
