@@ -20,9 +20,14 @@ export interface TimelineItem {
   showAsTweet?: boolean; // Twitter風UIで表示するかどうかのフラグ
 }
 
+// ランダムなIDを生成する関数（Reactのループレンダリング用の最小限実装）
+function generateRandomId(): string {
+  return Math.random().toString(36).substring(2, 10);
+}
+
 const releaseItems: TimelineItem[] = [
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "release",
     title: "HonoX デモアプリのリリース",
     description: "「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」の資料集サイトをHonoXで作成した",
@@ -30,7 +35,7 @@ const releaseItems: TimelineItem[] = [
     date: "2024-09-18T09:15:00Z",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "release",
     title: "Mリーグのオリジナルチームを作って応援するためのサイトを作りました！\n\nまだ身内でテスト運用しているので怪しい部分はありますが、是非お使い頂きたいです。\n\nhttps://ml-pog.com\n\nご意見やエラー報告は問い合わせフォームやDMから！セミファイナル・ファイナルにも対応予定です！#Mリーグ",
     description: "Mリーグのオリジナルチームを作って応援するためのサイト",
@@ -43,7 +48,7 @@ const releaseItems: TimelineItem[] = [
 
 const contributionItems: TimelineItem[] = [
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "oss",
     title: "feat(secureHeader): add Permissions-Policy header to secure headers middleware",
     description: "Hono middlewareへのPRがマージされました",
@@ -52,7 +57,7 @@ const contributionItems: TimelineItem[] = [
     siteName: "GitHub",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "oss",
     title: "docs(middleware): add permission-policy option on security-header's page",
     description: "Honoのドキュメントに項目を追加",
@@ -64,7 +69,7 @@ const contributionItems: TimelineItem[] = [
 
 const techBlogItems: TimelineItem[] = [
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "tech-blog",
     title:
       "新卒エンジニアがリファクタを突貫したClean Architectureプロジェクトの舞台裏",
@@ -74,7 +79,7 @@ const techBlogItems: TimelineItem[] = [
     siteName: "LIFULL Creators Blog",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "tech-blog",
     title: "モバイルでのタップ成功率を可視化するツールの開発",
     description: "これはTech Blogの記事サンプルです",
@@ -83,7 +88,7 @@ const techBlogItems: TimelineItem[] = [
     siteName: "LIFULL Creators Blog",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateRandomId(),
     type: "tech-blog",
     title: "社内A/Bテスト標準化に向けたA/Bテスト管理基盤プロトタイプの開発",
     description: "これはTech Blogの記事サンプルです",
@@ -103,7 +108,7 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
     const data = await response.json();
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     return data.map((item: any) => ({
-      id: crypto.randomUUID(),
+      id: generateRandomId(),
       type: "qiita",
       title: item.title,
       url: item.url,
@@ -132,7 +137,7 @@ const zennItems = async (): Promise<TimelineItem[]> => {
     
     // biome-ignore lint/suspicious/noExplicitAny: Zenn APIのレスポンス型が不明確なため
     return data.articles.map((item: any) => ({
-      id: crypto.randomUUID(),
+      id: generateRandomId(),
       type: "zenn",
       title: item.title,
       url: `https://zenn.dev${item.path}`,
