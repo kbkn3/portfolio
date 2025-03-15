@@ -24,6 +24,15 @@ export type OgData = {
   [key: string]: any;
 };
 
+// Cloudflare Workers環境かどうかを判定する関数
+function isCloudflareWorkersEnvironment(): boolean {
+  // biome-ignore lint/suspicious/noExplicitAny: グローバルオブジェクトのプロパティチェック
+  return typeof (globalThis as any).Deno !== 'undefined' || 
+         // biome-ignore lint/suspicious/noExplicitAny: グローバルオブジェクトのプロパティチェック
+         typeof (globalThis as any).WebSocketPair !== 'undefined' ||
+         typeof globalThis.caches !== 'undefined' && typeof globalThis.fetch === 'function';
+}
+
 /**
  * URLからOpen Graph情報を取得する
  * @param url 取得対象のURL
@@ -36,6 +45,15 @@ export async function fetchOgData(url: string): Promise<OgData> {
       requestUrl: url,
       success: false,
       error: 'x.com domains are skipped'
+    };
+  }
+
+  // Cloudflare Workers環境では簡易的な情報を返す
+  if (isCloudflareWorkersEnvironment()) {
+    return {
+      requestUrl: url,
+      success: false,
+      error: 'OG scraping is disabled in Cloudflare Workers environment'
     };
   }
 
