@@ -144,11 +144,23 @@ const zennItems = async (): Promise<TimelineItem[]> => {
     return [];
   }
 };
-// サンプルデータ（実際の実装では外部APIやDBから取得する）
-export const TIMELINE_ITEMS: TimelineItem[] = [
-  ...releaseItems,
-  ...techBlogItems,
-  ...(await qiitaItems()),
-  ...(await zennItems()),
-  ...contributionItems,
-];
+
+// サンプルデータを非同期に取得する関数
+export async function getTimelineItems(): Promise<TimelineItem[]> {
+  // QiitaとZennのデータを並列に取得
+  const [qiitaData, zennData] = await Promise.all([
+    qiitaItems(),
+    zennItems()
+  ]);
+  
+  return [
+    ...releaseItems,
+    ...techBlogItems,
+    ...qiitaData,
+    ...zennData,
+    ...contributionItems,
+  ];
+}
+
+// 初期値として空の配列を設定（実際のデータはgetTimelineItems()で取得）
+export const TIMELINE_ITEMS: TimelineItem[] = [];
