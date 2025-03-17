@@ -7,6 +7,17 @@ export function meta() {
   return [
     { title: "Timeline | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's timeline" },
+    // OG情報
+    { property: "og:title", content: "Timeline | kbkn3's portfolio" },
+    { property: "og:description", content: "kbkn3's timeline" },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://kbkn3.dev/timeline" },
+    { property: "og:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=TIMELINE" },
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Timeline | kbkn3's portfolio" },
+    { name: "twitter:description", content: "kbkn3's timeline" },
+    { name: "twitter:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=TIMELINE" },
   ]
 }
 
