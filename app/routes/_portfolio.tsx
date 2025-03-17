@@ -40,7 +40,7 @@ export default function Layout() {
         {/* タブナビゲーション */}
         <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
           <NavLink
-            to="/timeline"
+            to="/"
             className={({ isActive }) => 
               `px-4 py-2 font-medium rounded-t-lg ${
                 isActive
