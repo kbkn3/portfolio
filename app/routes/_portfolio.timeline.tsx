@@ -11,7 +11,7 @@ export function meta() {
     { property: "og:title", content: "Timeline | kbkn3's portfolio" },
     { property: "og:description", content: "kbkn3's timeline" },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://kbkn3.dev/timeline" },
+    { property: "og:url", content: "https://kbkn3.com/timeline" },
     { property: "og:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=TIMELINE" },
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },

@@ -10,7 +10,7 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:title", content: "kbkn3's portfolio" },
     { property: "og:description", content: "kbkn3's portfolio" },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://kbkn3.dev/" },
+    { property: "og:url", content: "https://kbkn3.com/" },
     { property: "og:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO" },
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
