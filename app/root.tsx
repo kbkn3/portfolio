@@ -10,16 +10,16 @@ import {
 
 import type { Route } from "./+types/root"
 import "./app.css"
-import Header from "./components/home/Header";
-import HeroSection from "./components/home/HeroSection";
-import Footer from "./components/home/Footer";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react"
+import Footer from "./components/home/Footer"
+import Header from "./components/home/Header"
+import HeroSection from "./components/home/HeroSection"
 
 /**
  * ルートローダー関数
  */
 export function loader() {
-  return { ok: true };
+  return { ok: true }
 }
 
 export const links: Route.LinksFunction = () => [
@@ -91,7 +91,7 @@ export default function App() {
         <div className="flex space-x-2 border-b border-gray-700 mt-8 mb-4">
           <NavLink
             to="/"
-            className={({ isActive }) => 
+            className={({ isActive }) =>
               `px-4 py-2 font-medium rounded-t-lg ${
                 isActive
                   ? "bg-gray-800 text-blue-400 border-b-2 border-blue-400"
@@ -105,7 +105,7 @@ export default function App() {
           </NavLink>
           <NavLink
             to="/portfolio"
-            className={({ isActive }) => 
+            className={({ isActive }) =>
               `px-4 py-2 font-medium rounded-t-lg ${
                 isActive
                   ? "bg-gray-800 text-indigo-400 border-b-2 border-indigo-400"

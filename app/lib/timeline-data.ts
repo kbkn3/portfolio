@@ -6,23 +6,23 @@ export type TimelineItemType =
   | "blog"
   | "tech-blog"
   | "release"
-  | "other";
+  | "other"
 
 export interface TimelineItem {
-  id: string;
-  type: TimelineItemType;
-  title: string;
-  description?: string;
-  url: string;
-  date: string; // ISO形式の日付文字列
-  imageUrl?: string;
-  siteName?: string;
-  showAsTweet?: boolean; // Twitter風UIで表示するかどうかのフラグ
+  id: string
+  type: TimelineItemType
+  title: string
+  description?: string
+  url: string
+  date: string // ISO形式の日付文字列
+  imageUrl?: string
+  siteName?: string
+  showAsTweet?: boolean // Twitter風UIで表示するかどうかのフラグ
 }
 
 // ランダムなIDを生成する関数（Reactのループレンダリング用の最小限実装）
 function generateRandomId(): string {
-  return Math.random().toString(36).substring(2, 10);
+  return Math.random().toString(36).substring(2, 10)
 }
 
 const releaseItems: TimelineItem[] = [
@@ -30,39 +30,43 @@ const releaseItems: TimelineItem[] = [
     id: generateRandomId(),
     type: "release",
     title: "HonoX デモアプリのリリース",
-    description: "「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」の資料集サイトをHonoXで作成した",
+    description:
+      "「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」の資料集サイトをHonoXで作成した",
     url: "https://gensya-akuyaku-source.pages.dev/",
     date: "2024-09-18T09:15:00Z",
   },
   {
     id: generateRandomId(),
     type: "release",
-    title: "Mリーグのオリジナルチームを作って応援するためのサイトを作りました！\n\nまだ身内でテスト運用しているので怪しい部分はありますが、是非お使い頂きたいです。\n\nhttps://ml-pog.com\n\nご意見やエラー報告は問い合わせフォームやDMから！セミファイナル・ファイナルにも対応予定です！#Mリーグ",
+    title:
+      "Mリーグのオリジナルチームを作って応援するためのサイトを作りました！\n\nまだ身内でテスト運用しているので怪しい部分はありますが、是非お使い頂きたいです。\n\nhttps://ml-pog.com\n\nご意見やエラー報告は問い合わせフォームやDMから！セミファイナル・ファイナルにも対応予定です！#Mリーグ",
     description: "Mリーグのオリジナルチームを作って応援するためのサイト",
     url: "https://x.com/kbkn3/status/1734170723370008605",
     date: "2023-12-11T11:18:00Z",
-    imageUrl: 'projects/ml-pog.png',
+    imageUrl: "projects/ml-pog.png",
     siteName: "twitter",
     showAsTweet: true, // Twitter風UIで表示する
   },
   {
     id: generateRandomId(),
     type: "release",
-    title: "Yahoo（@lycorptech_jp）から公開されたスマートフォンの画面上のタップの成功率を表示するツール「Tappy」( https://tappy.yahoo.co.jp )にインスパイアされたChrome拡張機能を作りました。\n\nCookieなどが必要な場合でも使いたかったのでTechBlogを参考に再現…！#UX #UI #a11y",
+    title:
+      "Yahoo（@lycorptech_jp）から公開されたスマートフォンの画面上のタップの成功率を表示するツール「Tappy」( https://tappy.yahoo.co.jp )にインスパイアされたChrome拡張機能を作りました。\n\nCookieなどが必要な場合でも使いたかったのでTechBlogを参考に再現…！#UX #UI #a11y",
     description: "Mリーグのオリジナルチームを作って応援するためのサイト",
     url: "https://x.com/kbkn3/status/1762030304695554279",
     date: "2024-02-26T08:22:00Z",
-    imageUrl: 'projects/tapAnalyzer.png',
+    imageUrl: "projects/tapAnalyzer.png",
     siteName: "twitter",
     showAsTweet: true, // Twitter風UIで表示する
-  }
-];
+  },
+]
 
 const contributionItems: TimelineItem[] = [
   {
     id: generateRandomId(),
     type: "oss",
-    title: "feat(secureHeader): add Permissions-Policy header to secure headers middleware",
+    title:
+      "feat(secureHeader): add Permissions-Policy header to secure headers middleware",
     description: "Hono middlewareへのPRがマージされました",
     url: "https://github.com/honojs/hono/pull/3314",
     date: "2024-09-08T14:45:00Z",
@@ -71,13 +75,14 @@ const contributionItems: TimelineItem[] = [
   {
     id: generateRandomId(),
     type: "oss",
-    title: "docs(middleware): add permission-policy option on security-header's page",
+    title:
+      "docs(middleware): add permission-policy option on security-header's page",
     description: "Honoのドキュメントに項目を追加",
     url: "https://github.com/honojs/website/pull/476",
     date: "2024-09-11T14:45:00Z",
     siteName: "GitHub",
   },
-];
+]
 
 const techBlogItems: TimelineItem[] = [
   {
@@ -108,16 +113,16 @@ const techBlogItems: TimelineItem[] = [
     date: "2024-08-27T08:00:00Z",
     siteName: "LIFULL Creators Blog",
   },
-];
+]
 
 const qiitaItems = async (): Promise<TimelineItem[]> => {
-  const USER_ID = "Kenta_Kobayashi";
+  const USER_ID = "Kenta_Kobayashi"
   try {
     // Qiitaの記事を取得する
     const response = await fetch(
-      `https://qiita.com/api/v2/users/${USER_ID}/items?page=1&per_page=100`
-    );
-    const data = await response.json();
+      `https://qiita.com/api/v2/users/${USER_ID}/items?page=1&per_page=100`,
+    )
+    const data = await response.json()
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     return data.map((item: any) => ({
       id: generateRandomId(),
@@ -126,27 +131,27 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
       url: item.url,
       date: item.created_at,
       siteName: "Qiita",
-    }));
+    }))
   } catch (error) {
-    console.error(error);
-    return [];
+    console.error(error)
+    return []
   }
-};
+}
 
 const zennItems = async (): Promise<TimelineItem[]> => {
-  const USER_ID = "kbkn3";
+  const USER_ID = "kbkn3"
   try {
     const response = await fetch(
-      `https://zenn.dev/api/articles?username=${USER_ID}&order=latest`
-    );
-    const data = await response.json();
-    
+      `https://zenn.dev/api/articles?username=${USER_ID}&order=latest`,
+    )
+    const data = await response.json()
+
     // Zenn API のレスポンスは { articles: [...] } の形式
     if (!data.articles || !Array.isArray(data.articles)) {
-      console.error("Unexpected Zenn API response format:", data);
-      return [];
+      console.error("Unexpected Zenn API response format:", data)
+      return []
     }
-    
+
     // biome-ignore lint/suspicious/noExplicitAny: Zenn APIのレスポンス型が不明確なため
     return data.articles.map((item: any) => ({
       id: generateRandomId(),
@@ -155,29 +160,26 @@ const zennItems = async (): Promise<TimelineItem[]> => {
       url: `https://zenn.dev${item.path}`,
       date: item.published_at || item.created_at,
       siteName: "Zenn",
-    }));
+    }))
   } catch (error) {
-    console.error(error);
-    return [];
+    console.error(error)
+    return []
   }
-};
+}
 
 // サンプルデータを非同期に取得する関数
 export async function getTimelineItems(): Promise<TimelineItem[]> {
   // QiitaとZennのデータを並列に取得
-  const [qiitaData, zennData] = await Promise.all([
-    qiitaItems(),
-    zennItems()
-  ]);
-  
+  const [qiitaData, zennData] = await Promise.all([qiitaItems(), zennItems()])
+
   return [
     ...releaseItems,
     ...techBlogItems,
     ...qiitaData,
     ...zennData,
     ...contributionItems,
-  ];
+  ]
 }
 
 // 初期値として空の配列を設定（実際のデータはgetTimelineItems()で取得）
-export const TIMELINE_ITEMS: TimelineItem[] = [];
+export const TIMELINE_ITEMS: TimelineItem[] = []

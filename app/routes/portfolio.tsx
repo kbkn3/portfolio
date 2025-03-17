@@ -1,5 +1,9 @@
 import type { Route } from "@/app/routes/+types/portfolio"
-import { ExperienceSection, ProjectsSection, TechStackSection } from "~/components/home"
+import {
+  ExperienceSection,
+  ProjectsSection,
+  TechStackSection,
+} from "~/components/home"
 import type { ProjectCardProps } from "~/components/project-card"
 
 export function meta() {
@@ -11,12 +15,20 @@ export function meta() {
     { property: "og:description", content: "kbkn3's portfolio and projects" },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://kbkn3.com/portfolio" },
-    { property: "og:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO" },
+    {
+      property: "og:image",
+      content:
+        "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO",
+    },
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: "Portfolio | kbkn3's portfolio" },
     { name: "twitter:description", content: "kbkn3's portfolio and projects" },
-    { name: "twitter:image", content: "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO" },
+    {
+      name: "twitter:image",
+      content:
+        "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO",
+    },
   ]
 }
 
@@ -38,7 +50,8 @@ export function loader() {
       title: "雀魂牌譜検討サポーター",
       description:
         "雀魂の牌譜検討で簡単にNAGAやmjai-reviewer(Mortal/Akochan)を利用するための非公式拡張機能",
-      image: "https://github.com/kbkn3/MahjongSoul-review-supporter/blob/develop/imgs/Animation.gif?raw=true",
+      image:
+        "https://github.com/kbkn3/MahjongSoul-review-supporter/blob/develop/imgs/Animation.gif?raw=true",
       link: "https://github.com/kbkn3/MahjongSoul-review-supporter",
       articleTitle:
         "雀魂でもNAGA/Mortalでワンクリック牌譜検討！拡張機能リリースしました。",
@@ -79,15 +92,13 @@ export function loader() {
       tags: ["TypeScript", "HonoX", "Tailwind CSS", "Cloudflare Pages"],
     },
   ]
-  
+
   return { projects }
 }
 
-export default function PortfolioPage({
-  loaderData
-}: Route.ComponentProps) {
+export default function PortfolioPage({ loaderData }: Route.ComponentProps) {
   const { projects } = loaderData
-  
+
   return (
     <div className="w-full">
       <ExperienceSection />
@@ -95,4 +106,4 @@ export default function PortfolioPage({
       <TechStackSection />
     </div>
   )
-} 
+}

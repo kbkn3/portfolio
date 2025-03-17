@@ -1,9 +1,9 @@
-import type { TimelineItem } from "~/lib/timeline-data";
-import TimelineItemCard from "./TimelineItemCard";
+import type { TimelineItem } from "~/lib/timeline-data"
+import TimelineItemCard from "./TimelineItemCard"
 
 interface YearGroupProps {
-  year: number;
-  items: TimelineItem[];
+  year: number
+  items: TimelineItem[]
 }
 
 // 年ごとのグループ
@@ -17,5 +17,5 @@ export const YearGroup = ({ year, items }: YearGroupProps) => {
         ))}
       </div>
     </div>
-  );
-}; 
+  )
+}

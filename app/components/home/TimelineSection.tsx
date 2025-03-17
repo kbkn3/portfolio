@@ -1,33 +1,39 @@
 import { OnePin } from "~/components/MahjongTile"
 import SectionHeading from "~/components/SectionHeading"
-import type { TimelineItem } from "~/lib/timeline-data"
 import { YearGroup } from "~/components/timeline/YearGroup"
+import type { TimelineItem } from "~/lib/timeline-data"
 
 interface TimelineSectionProps {
-  timelineItems?: TimelineItem[];
-  error?: string;
+  timelineItems?: TimelineItem[]
+  error?: string
 }
 
-const TimelineSection = ({ timelineItems = [], error }: TimelineSectionProps) => {
-  const loading = !timelineItems && !error;
+const TimelineSection = ({
+  timelineItems = [],
+  error,
+}: TimelineSectionProps) => {
+  const loading = !timelineItems && !error
 
   // タイムラインアイテム
-  const filteredItems = timelineItems;
-  
+  const filteredItems = timelineItems
+
   // 年ごとにグループ化
-  const itemsByYear = filteredItems.reduce<Record<number, TimelineItem[]>>((acc, item) => {
-    const year = new Date(item.date).getFullYear();
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(item);
-    return acc;
-  }, {});
-  
+  const itemsByYear = filteredItems.reduce<Record<number, TimelineItem[]>>(
+    (acc, item) => {
+      const year = new Date(item.date).getFullYear()
+      if (!acc[year]) {
+        acc[year] = []
+      }
+      acc[year].push(item)
+      return acc
+    },
+    {},
+  )
+
   // 年の降順でソート
   const sortedYears = Object.keys(itemsByYear)
     .map(Number)
-    .sort((a, b) => b - a);
+    .sort((a, b) => b - a)
 
   return (
     <section id="timeline" className="py-4 md:py-8 lg:py-12">

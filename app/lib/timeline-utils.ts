@@ -4,19 +4,21 @@ import type { TimelineItem } from "~/lib/timeline-data"
 export const extractDomain = (url: string): string => {
   try {
     // x.comドメインの場合は空文字を返す
-    if (url.includes('x.com') || url.includes('twitter.com')) {
-      return '';
+    if (url.includes("x.com") || url.includes("twitter.com")) {
+      return ""
     }
-    
-    const urlObj = new URL(url);
-    return urlObj.hostname;
+
+    const urlObj = new URL(url)
+    return urlObj.hostname
   } catch (_e) {
-    return '';
+    return ""
   }
-};
+}
 
 // アクションタイプを取得する関数
-export const getActionType = (type: TimelineItem["type"]): "post" | "released" | "others" => {
+export const getActionType = (
+  type: TimelineItem["type"],
+): "post" | "released" | "others" => {
   switch (type) {
     case "zenn":
     case "qiita":
@@ -54,4 +56,4 @@ export const getActionLabel = (type: TimelineItem["type"]): string => {
     default:
       return "Created"
   }
-} 
+}
