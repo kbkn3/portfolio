@@ -1,4 +1,4 @@
-import type { Route } from "@/app/routes/+types/_portfolio.portfolio"
+import type { Route } from "@/app/routes/+types/portfolio"
 import { ExperienceSection, ProjectsSection, TechStackSection } from "~/components/home"
 import type { ProjectCardProps } from "~/components/project-card"
 
