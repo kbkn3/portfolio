@@ -35,12 +35,30 @@ export const links: Route.LinksFunction = () => [
   },
 ]
 
+/**
+ * 共通のメタ情報
+ */
+export function meta() {
+  return [
+    // 基本情報
+    { charset: "utf-8" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "language", content: "ja" },
+    
+    // セキュリティ関連
+    { 
+      "http-equiv": "Content-Security-Policy", 
+      content: "default-src 'self'; img-src 'self' https://ogp-image-creator.ken0421wabu.workers.dev https://github.com; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self';" 
+    },
+    { "http-equiv": "X-UA-Compatible", content: "IE=edge" },
+    { name: "referrer", content: "no-referrer-when-downgrade" },
+  ]
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>

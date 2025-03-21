@@ -5,12 +5,9 @@ import { getTimelineItems } from "~/lib/timeline-data"
 
 export function meta() {
   return [
-    // 基本情報
-    { charset: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    // ページ固有の情報
     { title: "Timeline | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's timeline" },
-    { name: "language", content: "ja" },
     { rel: "canonical", href: "https://kbkn3.com" },
     
     // OG情報

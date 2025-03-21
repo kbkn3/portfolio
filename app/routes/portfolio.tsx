@@ -8,12 +8,9 @@ import type { ProjectCardProps } from "~/components/project-card"
 
 export function meta() {
   return [
-    // 基本情報
-    { charset: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    // ページ固有の情報
     { title: "Portfolio | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's portfolio and projects" },
-    { name: "language", content: "ja" },
     { rel: "canonical", href: "https://kbkn3.com/portfolio" },
     
     // OG情報
