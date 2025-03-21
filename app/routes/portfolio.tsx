@@ -8,20 +8,31 @@ import type { ProjectCardProps } from "~/components/project-card"
 
 export function meta() {
   return [
+    // 基本情報
+    { charset: "utf-8" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
     { title: "Portfolio | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's portfolio and projects" },
+    { name: "language", content: "ja" },
+    { rel: "canonical", href: "https://kbkn3.com/portfolio" },
+    
     // OG情報
     { property: "og:title", content: "Portfolio | kbkn3's portfolio" },
     { property: "og:description", content: "kbkn3's portfolio and projects" },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://kbkn3.com/portfolio" },
+    { property: "og:locale", content: "ja_JP" },
     {
       property: "og:image",
       content:
         "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO",
     },
+    { property: "og:image:alt", content: "kbkn3's portfolio thumbnail" },
+    
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@kbkn3" },
+    { name: "twitter:creator", content: "@kbkn3" },
     { name: "twitter:title", content: "Portfolio | kbkn3's portfolio" },
     { name: "twitter:description", content: "kbkn3's portfolio and projects" },
     {
@@ -29,6 +40,7 @@ export function meta() {
       content:
         "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO",
     },
+    { name: "twitter:image:alt", content: "kbkn3's portfolio thumbnail" },
   ]
 }
 
