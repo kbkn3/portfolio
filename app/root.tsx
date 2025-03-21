@@ -35,30 +35,20 @@ export const links: Route.LinksFunction = () => [
   },
 ]
 
-/**
- * 共通のメタ情報
- */
-export function meta() {
-  return [
-    // 基本情報
-    { charset: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { name: "language", content: "ja" },
-    
-    // セキュリティ関連
-    { 
-      "http-equiv": "Content-Security-Policy", 
-      content: "default-src 'self'; img-src 'self' https://ogp-image-creator.ken0421wabu.workers.dev https://github.com; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self';" 
-    },
-    { "http-equiv": "X-UA-Compatible", content: "IE=edge" },
-    { name: "referrer", content: "no-referrer-when-downgrade" },
-  ]
-}
-
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="language" content="ja" />
+        {/* セキュリティ関連 */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; img-src 'self' https://ogp-image-creator.ken0421wabu.workers.dev https://github.com https://*.githubusercontent.com https://*.googleusercontent.com https://www.google.com https://*.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
+        />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
         <Meta />
         <Links />
       </head>
