@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {/* セキュリティ関連 */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; img-src 'self' https://ogp-image-creator.ken0421wabu.workers.dev https://github.com https://*.githubusercontent.com https://*.googleusercontent.com https://www.google.com https://*.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
+          content="default-src 'self'; img-src 'self' https://ogp-image-creator.ken0421wabu.workers.dev https://github.com https://*.githubusercontent.com https://*.googleusercontent.com https://www.google.com https://*.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
         />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="referrer" content="no-referrer-when-downgrade" />
