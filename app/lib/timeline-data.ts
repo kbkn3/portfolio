@@ -113,6 +113,15 @@ const techBlogItems: TimelineItem[] = [
     date: "2024-08-27T08:00:00Z",
     siteName: "LIFULL Creators Blog",
   },
+  {
+    id: generateRandomId(),
+    type: "tech-blog",
+    title: "内製AIコードレビューActionsの導入",
+    description: "これはTech Blogの記事サンプルです",
+    url: "https://www.lifull.blog/entry/2025/03/31/190000",
+    date: "2025-03-31T08:00:00Z",
+    siteName: "LIFULL Creators Blog",
+  },
 ]
 
 const qiitaItems = async (): Promise<TimelineItem[]> => {
