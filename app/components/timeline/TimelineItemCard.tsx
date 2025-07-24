@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import type { TimelineItem } from "~/lib/timeline-data"
 import {
   getActionLabel,
@@ -12,20 +13,83 @@ interface TimelineItemCardProps {
   item: TimelineItem
 }
 
+interface OgData {
+  ogTitle?: string
+  ogDescription?: string
+  ogImage?: string | { url: string }[] | { url: string }
+  ogSiteName?: string
+  success: boolean
+}
+
 // タイムラインアイテムカード
 const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
+  const [ogData, setOgData] = useState<OgData | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  
   const date = new Date(item.date)
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
 
+  // OGデータの遅延読み込み
+  useEffect(() => {
+    // title, description, imageUrlが既にある場合はOGデータ取得しない
+    if (item.title && item.description && item.imageUrl) {
+      return
+    }
+
+    // Intersection Observerで可視範囲に入ったら読み込み
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoading && !ogData) {
+          setIsLoading(true)
+          
+          fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setOgData(data)
+              setIsLoading(false)
+            })
+            .catch((error) => {
+              console.error("Failed to fetch OG data:", error)
+              setIsLoading(false)
+            })
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const element = document.getElementById(`timeline-item-${item.date}-${item.type}`)
+    if (element) {
+      observer.observe(element)
+    }
+
+    return () => {
+      if (element) {
+        observer.unobserve(element)
+      }
+    }
+  }, [item, isLoading, ogData])
+
+  // OGデータから表示用データを取得
+  const displayTitle = item.title || (ogData?.success ? ogData.ogTitle : item.title) || ""
+  const displayImageUrl = item.imageUrl || (ogData?.success ? 
+    (ogData.ogImage
+      ? Array.isArray(ogData.ogImage)
+        ? ogData.ogImage[0]?.url
+        : typeof ogData.ogImage === 'string' 
+          ? ogData.ogImage 
+          : ogData.ogImage.url
+      : undefined) : undefined)
+  const displaySiteName = item.siteName || (ogData?.success ? ogData.ogSiteName : undefined)
+
   // Twitterの場合、releaseタイプでsiteNameがTwitterの場合、またはshowAsTweetがtrueの場合は専用コンポーネントを使用
   if (
     item.type === "twitter" ||
-    (item.type === "release" && item.siteName === "Twitter") ||
+    (item.type === "release" && displaySiteName === "Twitter") ||
     item.showAsTweet
   ) {
     return (
-      <div className="flex items-start group relative pl-10 pb-10">
+      <div id={`timeline-item-${item.date}-${item.type}`} className="flex items-start group relative pl-10 pb-10">
         {/* 縦線 */}
         <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
 
@@ -58,10 +122,10 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
             className="block w-full"
           >
             <TweetCard
-              name={item.siteName || "こばけん"}
+              name={displaySiteName || "こばけん"}
               username="kbkn3"
-              text={item.title}
-              imageUrl={item.imageUrl}
+              text={displayTitle}
+              imageUrl={displayImageUrl}
               date={item.date}
             />
           </a>
@@ -79,7 +143,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
         : "bg-purple-900/30 border-purple-700"
 
   return (
-    <div className="flex items-start group relative pl-10 pb-10">
+    <div id={`timeline-item-${item.date}-${item.type}`} className="flex items-start group relative pl-10 pb-10">
       {/* 縦線 */}
       <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
 
@@ -129,39 +193,27 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
           <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-gray-500 transition-colors">
             <div className="p-4">
               <h3 className="text-lg font-medium text-white group-hover:text-blue-400 transition-colors line-clamp-2">
-                {item.title}
+                {displayTitle}
               </h3>
 
               <div className="mt-2 flex items-center gap-2 overflow-hidden">
                 {actionType === "released" ? (
                   <>
-                    <SiteIcon
-                      url={item.url}
-                      size={16}
-                      className="flex-shrink-0"
-                    />
+                    <SiteIcon url={item.url} size={16} />
                     <span className="text-sm text-gray-400 truncate max-w-full">
                       {item.url}
                     </span>
                   </>
                 ) : actionType === "post" ? (
                   <>
-                    <SiteIcon
-                      url={item.url}
-                      size={16}
-                      className="flex-shrink-0"
-                    />
+                    <SiteIcon url={item.url} size={16} />
                     <span className="text-sm text-gray-400">
                       {formattedDate}
                     </span>
                   </>
                 ) : (
                   <>
-                    <SiteIcon
-                      url={item.url}
-                      size={16}
-                      className="flex-shrink-0"
-                    />
+                    <SiteIcon url={item.url} size={16} />
                     <span className="text-sm text-gray-400 truncate max-w-full">
                       {item.url}
                     </span>
