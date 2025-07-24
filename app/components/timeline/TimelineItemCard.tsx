@@ -25,7 +25,7 @@ interface OgData {
 const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
   const [ogData, setOgData] = useState<OgData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const date = new Date(item.date)
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
@@ -42,7 +42,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
       (entries) => {
         if (entries[0].isIntersecting && !isLoading && !ogData) {
           setIsLoading(true)
-          
+
           fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
             .then((res) => res.json())
             .then((data) => {
@@ -55,10 +55,12 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
             })
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     )
 
-    const element = document.getElementById(`timeline-item-${item.date}-${item.type}`)
+    const element = document.getElementById(
+      `timeline-item-${item.date}-${item.type}`,
+    )
     if (element) {
       observer.observe(element)
     }
@@ -71,16 +73,21 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
   }, [item, isLoading, ogData])
 
   // OGデータから表示用データを取得
-  const displayTitle = item.title || (ogData?.success ? ogData.ogTitle : item.title) || ""
-  const displayImageUrl = item.imageUrl || (ogData?.success ? 
-    (ogData.ogImage
-      ? Array.isArray(ogData.ogImage)
-        ? ogData.ogImage[0]?.url
-        : typeof ogData.ogImage === 'string' 
-          ? ogData.ogImage 
-          : ogData.ogImage.url
-      : undefined) : undefined)
-  const displaySiteName = item.siteName || (ogData?.success ? ogData.ogSiteName : undefined)
+  const displayTitle =
+    item.title || (ogData?.success ? ogData.ogTitle : item.title) || ""
+  const displayImageUrl =
+    item.imageUrl ||
+    (ogData?.success
+      ? ogData.ogImage
+        ? Array.isArray(ogData.ogImage)
+          ? ogData.ogImage[0]?.url
+          : typeof ogData.ogImage === "string"
+            ? ogData.ogImage
+            : ogData.ogImage.url
+        : undefined
+      : undefined)
+  const displaySiteName =
+    item.siteName || (ogData?.success ? ogData.ogSiteName : undefined)
 
   // Twitterの場合、releaseタイプでsiteNameがTwitterの場合、またはshowAsTweetがtrueの場合は専用コンポーネントを使用
   if (
@@ -89,7 +96,10 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
     item.showAsTweet
   ) {
     return (
-      <div id={`timeline-item-${item.date}-${item.type}`} className="flex items-start group relative pl-10 pb-10">
+      <div
+        id={`timeline-item-${item.date}-${item.type}`}
+        className="flex items-start group relative pl-10 pb-10"
+      >
         {/* 縦線 */}
         <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
 
@@ -143,7 +153,10 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
         : "bg-purple-900/30 border-purple-700"
 
   return (
-    <div id={`timeline-item-${item.date}-${item.type}`} className="flex items-start group relative pl-10 pb-10">
+    <div
+      id={`timeline-item-${item.date}-${item.type}`}
+      className="flex items-start group relative pl-10 pb-10"
+    >
       {/* 縦線 */}
       <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
 

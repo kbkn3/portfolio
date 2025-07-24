@@ -12,7 +12,7 @@ export function meta() {
     { title: "Portfolio | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's portfolio and projects" },
     { rel: "canonical", href: "https://kbkn3.com/portfolio" },
-    
+
     // OG情報
     { property: "og:title", content: "Portfolio | kbkn3's portfolio" },
     { property: "og:description", content: "kbkn3's portfolio and projects" },
@@ -25,7 +25,7 @@ export function meta() {
         "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=PORTFOLIO",
     },
     { property: "og:image:alt", content: "kbkn3's portfolio thumbnail" },
-    
+
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: "@kbkn3" },

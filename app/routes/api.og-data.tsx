@@ -13,13 +13,13 @@ export async function loader({ request }: Route.LoaderArgs) {
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
-      }
+      },
     )
   }
 
   try {
     const ogData = await fetchOgData(targetUrl)
-    
+
     return Response.json(ogData, {
       status: 200,
       headers: {
@@ -40,7 +40,7 @@ export async function loader({ request }: Route.LoaderArgs) {
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
-      }
+      },
     )
   }
 }

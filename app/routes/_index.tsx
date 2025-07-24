@@ -8,7 +8,7 @@ export function meta() {
     { title: "Timeline | kbkn3's portfolio" },
     { name: "description", content: "kbkn3's timeline" },
     { rel: "canonical", href: "https://kbkn3.com" },
-    
+
     // OG情報
     { property: "og:title", content: "Timeline | kbkn3's portfolio" },
     { property: "og:description", content: "kbkn3's timeline" },
@@ -21,7 +21,7 @@ export function meta() {
         "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=TIMELINE",
     },
     { property: "og:image:alt", content: "kbkn3's timeline thumbnail" },
-    
+
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: "@kbkn3" },
