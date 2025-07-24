@@ -1,4 +1,4 @@
-import type { Route } from "@/app/routes/+types/portfolio"
+import type { Route } from "@/app/routes/+types/_main.portfolio"
 import {
   ExperienceSection,
   ProjectsSection,

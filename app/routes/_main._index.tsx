@@ -1,4 +1,4 @@
-import type { Route } from "@/app/routes/+types/_index"
+import type { Route } from "@/app/routes/+types/_main._index"
 import { TimelineSection } from "~/components/home"
 import { getTimelineItems } from "~/lib/timeline-data"
 
