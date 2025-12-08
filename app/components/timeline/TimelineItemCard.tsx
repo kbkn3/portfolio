@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { fetchOgDataWithCache } from "~/lib/og-cache"
 import type { TimelineItem } from "~/lib/timeline-data"
 import {
   getActionLabel,
@@ -25,26 +26,34 @@ interface OgData {
 const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
   const [ogData, setOgData] = useState<OgData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const hasFetchedRef = useRef(false)
 
   const date = new Date(item.date)
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
 
-  // OGデータの遅延読み込み
+  // OGデータの遅延読み込み（キャッシュ付き）
   useEffect(() => {
     // title, description, imageUrlが既にある場合はOGデータ取得しない
     if (item.title && item.description && item.imageUrl) {
       return
     }
 
+    // 既に取得済みの場合はスキップ
+    if (hasFetchedRef.current) {
+      return
+    }
+
     // Intersection Observerで可視範囲に入ったら読み込み
-    const observer = new IntersectionObserver(
+    observerRef.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isLoading && !ogData) {
+        if (entries[0].isIntersecting && !hasFetchedRef.current) {
+          hasFetchedRef.current = true
           setIsLoading(true)
 
-          fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
-            .then((res) => res.json())
+          // キャッシュ付きフェッチを使用
+          fetchOgDataWithCache(item.url)
             .then((data) => {
               setOgData(data)
               setIsLoading(false)
@@ -62,15 +71,13 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
       `timeline-item-${item.date}-${item.type}`,
     )
     if (element) {
-      observer.observe(element)
+      observerRef.current.observe(element)
     }
 
     return () => {
-      if (element) {
-        observer.unobserve(element)
-      }
+      observerRef.current?.disconnect()
     }
-  }, [item, isLoading, ogData])
+  }, [item.title, item.description, item.imageUrl, item.url, item.date, item.type])
 
   // OGデータから表示用データを取得
   const displayTitle =

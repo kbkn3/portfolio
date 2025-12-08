@@ -124,11 +124,25 @@ const techBlogItems: TimelineItem[] = [
   },
 ]
 
+// タイムアウト付きfetch（ビルド時のハングを防ぐ）
+async function fetchWithTimeout(
+  url: string,
+  timeoutMs = 5000,
+): Promise<Response> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const response = await fetch(url, { signal: controller.signal })
+    return response
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
 const qiitaItems = async (): Promise<TimelineItem[]> => {
   const USER_ID = "Kenta_Kobayashi"
   try {
-    // Qiitaの記事を取得する
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://qiita.com/api/v2/users/${USER_ID}/items?page=1&per_page=100`,
     )
     const data = await response.json()
@@ -142,7 +156,7 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
       siteName: "Qiita",
     }))
   } catch (error) {
-    console.error(error)
+    console.error("Qiita API fetch failed:", error)
     return []
   }
 }
@@ -150,7 +164,7 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
 const zennItems = async (): Promise<TimelineItem[]> => {
   const USER_ID = "kbkn3"
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://zenn.dev/api/articles?username=${USER_ID}&order=latest`,
     )
     const data = await response.json()
@@ -171,7 +185,7 @@ const zennItems = async (): Promise<TimelineItem[]> => {
       siteName: "Zenn",
     }))
   } catch (error) {
-    console.error(error)
+    console.error("Zenn API fetch failed:", error)
     return []
   }
 }
