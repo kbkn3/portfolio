@@ -143,8 +143,8 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
           console.error(`Qiita API error: ${response.status}`)
           return []
         }
-        const data = await response.json()
         // biome-ignore lint/suspicious/noExplicitAny: Qiita APIのレスポンス型
+        const data: any[] = await response.json()
         return data.map((item: any) => ({
           id: generateStableId(`qiita-${item.id}`),
           type: "qiita" as const,
@@ -180,14 +180,14 @@ const zennItems = async (): Promise<TimelineItem[]> => {
           console.error(`Zenn API error: ${response.status}`)
           return []
         }
-        const data = await response.json()
+        // biome-ignore lint/suspicious/noExplicitAny: Zenn APIのレスポンス型
+        const data: { articles?: any[] } = await response.json()
 
         if (!data.articles || !Array.isArray(data.articles)) {
           console.error("Unexpected Zenn API response format:", data)
           return []
         }
 
-        // biome-ignore lint/suspicious/noExplicitAny: Zenn APIのレスポンス型
         return data.articles.map((item: any) => ({
           id: generateStableId(`zenn-${item.slug}`),
           type: "zenn" as const,

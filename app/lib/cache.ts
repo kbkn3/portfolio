@@ -11,11 +11,18 @@ interface CacheOptions {
   staleWhileRevalidate?: number
 }
 
+// Cloudflare Workers固有のcaches.defaultを使用するための型
+type CloudflareCacheStorage = CacheStorage & { default: Cache }
+
 /**
  * Workers環境でのみキャッシュを使用する
  */
 function isWorkersEnvironment(): boolean {
   return typeof caches !== "undefined" && "default" in caches
+}
+
+function getWorkersCache(): Cache {
+  return (caches as CloudflareCacheStorage).default
 }
 
 /**
@@ -31,7 +38,7 @@ export async function fetchWithCache<T>(
     return fetcher()
   }
 
-  const cache = caches.default
+  const cache = getWorkersCache()
   const cacheKey = new Request(`https://cache.internal/${CACHE_NAME}/${url}`)
 
   // キャッシュを確認

@@ -44,8 +44,8 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
 
     try {
       const res = await fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
-      const data = await res.json()
-      ogDataCache.set(item.url, data) // キャッシュに保存
+      const data: OgData = await res.json()
+      ogDataCache.set(item.url, data)
       setOgData(data)
     } catch (error) {
       console.error("Failed to fetch OG data:", error)

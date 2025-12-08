@@ -4,19 +4,29 @@ import { fetchOgData } from "~/lib/og-scraper"
 const OG_CACHE_MAX_AGE = 86400 // 24時間
 const OG_CACHE_STALE_WHILE_REVALIDATE = 604800 // 7日間
 
+// Cloudflare Workers固有のcaches.defaultを使用するための型
+type CloudflareCacheStorage = CacheStorage & { default: Cache }
+
+function getWorkersCache(): Cache | null {
+  if (typeof caches === "undefined" || !("default" in caches)) {
+    return null
+  }
+  return (caches as CloudflareCacheStorage).default
+}
+
 /**
  * Workers Cache APIを使ったOGデータのサーバーサイドキャッシュ
  */
 async function getCachedOgData(
   targetUrl: string,
 ): Promise<{ data: unknown; cached: boolean }> {
+  const cache = getWorkersCache()
+
   // Workers環境でない場合は直接フェッチ
-  if (typeof caches === "undefined" || !("default" in caches)) {
+  if (!cache) {
     const data = await fetchOgData(targetUrl)
     return { data, cached: false }
   }
-
-  const cache = caches.default
   const cacheKey = new Request(
     `https://og-cache.internal/og-data/${encodeURIComponent(targetUrl)}`,
   )
