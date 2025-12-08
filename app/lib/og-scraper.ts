@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from "./cache"
+
 // OGデータの型定義
 export type OgData = {
   ogTitle?: string
@@ -24,6 +26,8 @@ export type OgData = {
   [key: string]: any
 }
 
+const OG_FETCH_TIMEOUT_MS = 8000 // 8秒タイムアウト
+
 /**
  * URLからOpen Graph情報を取得する
  * @param url 取得対象のURL
@@ -40,13 +44,17 @@ export async function fetchOgData(url: string): Promise<OgData> {
   }
 
   try {
-    // URLからHTMLを取得
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (compatible; OGScraper/1.0; +https://example.com)",
+    // URLからHTMLを取得（タイムアウト付き）
+    const response = await fetchWithTimeout(
+      url,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (compatible; OGScraper/1.0; +https://example.com)",
+        },
       },
-    })
+      OG_FETCH_TIMEOUT_MS,
+    )
 
     if (!response.ok) {
       throw new Error(
@@ -65,6 +73,16 @@ export async function fetchOgData(url: string): Promise<OgData> {
       success: true,
     }
   } catch (error) {
+    // タイムアウトエラーの場合は専用メッセージ
+    if (error instanceof Error && error.name === "AbortError") {
+      console.error(`OG data fetch timeout for ${url}`)
+      return {
+        requestUrl: url,
+        success: false,
+        error: "Request timeout",
+      }
+    }
+
     console.error(`Failed to fetch OG data for ${url}:`, error)
     return {
       requestUrl: url,

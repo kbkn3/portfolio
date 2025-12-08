@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import type { TimelineItem } from "~/lib/timeline-data"
 import {
   getActionLabel,
@@ -21,56 +21,70 @@ interface OgData {
   success: boolean
 }
 
+// クライアント側OGデータキャッシュ（セッション中有効）
+const ogDataCache = new Map<string, OgData>()
+
 // タイムラインアイテムカード
 const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
-  const [ogData, setOgData] = useState<OgData | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [ogData, setOgData] = useState<OgData | null>(() => {
+    // 初期化時にキャッシュを確認
+    return ogDataCache.get(item.url) || null
+  })
+  const elementRef = useRef<HTMLDivElement>(null)
+  const fetchedRef = useRef(false) // フェッチ済みフラグ
 
   const date = new Date(item.date)
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
 
+  // OGデータをフェッチする関数
+  const fetchOgData = useCallback(async () => {
+    if (fetchedRef.current || ogData) return
+    fetchedRef.current = true
+
+    try {
+      const res = await fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
+      const data = await res.json()
+      ogDataCache.set(item.url, data) // キャッシュに保存
+      setOgData(data)
+    } catch (error) {
+      console.error("Failed to fetch OG data:", error)
+    }
+  }, [item.url, ogData])
+
   // OGデータの遅延読み込み
   useEffect(() => {
-    // title, description, imageUrlが既にある場合はOGデータ取得しない
+    // title, description, imageUrlが既にある場合はOGデータ取得不要
     if (item.title && item.description && item.imageUrl) {
       return
     }
 
+    // キャッシュ済みの場合はスキップ
+    if (ogDataCache.has(item.url)) {
+      if (!ogData) {
+        setOgData(ogDataCache.get(item.url)!)
+      }
+      return
+    }
+
+    const element = elementRef.current
+    if (!element) return
+
     // Intersection Observerで可視範囲に入ったら読み込み
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isLoading && !ogData) {
-          setIsLoading(true)
-
-          fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
-            .then((res) => res.json())
-            .then((data) => {
-              setOgData(data)
-              setIsLoading(false)
-            })
-            .catch((error) => {
-              console.error("Failed to fetch OG data:", error)
-              setIsLoading(false)
-            })
+        if (entries[0].isIntersecting) {
+          fetchOgData()
+          observer.disconnect() // 一度フェッチしたらobserverを解除
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.1, rootMargin: "100px" }, // 少し早めにフェッチ開始
     )
 
-    const element = document.getElementById(
-      `timeline-item-${item.date}-${item.type}`,
-    )
-    if (element) {
-      observer.observe(element)
-    }
+    observer.observe(element)
 
-    return () => {
-      if (element) {
-        observer.unobserve(element)
-      }
-    }
-  }, [item, isLoading, ogData])
+    return () => observer.disconnect()
+  }, [item.title, item.description, item.imageUrl, item.url, ogData, fetchOgData])
 
   // OGデータから表示用データを取得
   const displayTitle =
@@ -97,7 +111,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
   ) {
     return (
       <div
-        id={`timeline-item-${item.date}-${item.type}`}
+        ref={elementRef}
         className="flex items-start group relative pl-10 pb-10"
       >
         {/* 縦線 */}
@@ -154,7 +168,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
 
   return (
     <div
-      id={`timeline-item-${item.date}-${item.type}`}
+      ref={elementRef}
       className="flex items-start group relative pl-10 pb-10"
     >
       {/* 縦線 */}
