@@ -123,6 +123,14 @@ const techBlogItems: TimelineItem[] = [
     date: "2025-03-31T08:00:00Z",
     siteName: "LIFULL Creators Blog",
   },
+  {
+    id: generateStableId("presentation-ai-code-review"),
+    type: "other",
+    title: "社内の知見を最大まで活かすためのAIコードレビューの足元整備",
+    url: "https://www.docswell.com/s/kbkn3/ZVMW84-lifull-ai-review",
+    date: "2025-11-26T00:00:00Z",
+    siteName: "docswell",
+  },
 ]
 
 const QIITA_USER_ID = "Kenta_Kobayashi"

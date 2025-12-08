@@ -202,6 +202,24 @@ const experiences: ExperienceItem[] = [
             </li>
           </ul>
         </div>
+        <div className="mt-3">
+          <h4 className="text-sm font-medium text-gray-300 mb-1">
+            発表資料
+          </h4>
+          <ul className="pl-5 space-y-1 text-sm text-gray-300 list-none">
+            <li>
+              <a
+                href="https://www.docswell.com/s/kbkn3/ZVMW84-lifull-ai-review"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 hover:underline flex items-center"
+              >
+                <ExternalLinkIcon size="sm" className="mr-1 inline" />
+                社内の知見を最大まで活かすためのAIコードレビューの足元整備
+              </a>
+            </li>
+          </ul>
+        </div>
       </>
     ),
     links: [
