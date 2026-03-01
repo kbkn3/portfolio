@@ -1,4 +1,4 @@
-import type { TimelineItem } from "~/lib/timeline-data"
+import type { TimelineItem } from "~/lib/schemas"
 
 // URLからドメイン名を抽出する関数
 export const extractDomain = (url: string): string => {
