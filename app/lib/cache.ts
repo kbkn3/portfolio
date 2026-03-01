@@ -47,7 +47,9 @@ export async function fetchWithCache<T>(
   if (cachedResponse) {
     const cachedData = await cachedResponse.json()
     const age =
-      (Date.now() - new Date(cachedResponse.headers.get("date") || 0).getTime()) / 1000
+      (Date.now() -
+        new Date(cachedResponse.headers.get("date") || 0).getTime()) /
+      1000
 
     // まだ新鮮な場合はそのまま返す
     if (age < options.maxAge) {
@@ -55,7 +57,10 @@ export async function fetchWithCache<T>(
     }
 
     // stale-while-revalidate期間内なら古いデータを返しつつバックグラウンドで更新
-    if (options.staleWhileRevalidate && age < options.maxAge + options.staleWhileRevalidate) {
+    if (
+      options.staleWhileRevalidate &&
+      age < options.maxAge + options.staleWhileRevalidate
+    ) {
       // バックグラウンドで更新（waitUntilが使えない場合は無視）
       fetcher()
         .then(async (newData) => {

@@ -5,11 +5,11 @@
  */
 
 import { isbot } from "isbot"
-import type { AppLoadContext, EntryContext } from "react-router"
-import { ServerRouter } from "react-router"
 // Cloudflare Workers環境との互換性のためbrowser版を使用
 // @ts-expect-error react-dom/server.browserに型定義がない
 import { renderToReadableStream } from "react-dom/server.browser"
+import type { AppLoadContext, EntryContext } from "react-router"
+import { ServerRouter } from "react-router"
 
 export default async function handleRequest(
   request: Request,
