@@ -4,11 +4,13 @@
 
 const CACHE_NAME = "portfolio-cache-v1"
 
-interface CacheOptions {
+interface CacheOptions<T = unknown> {
   /** キャッシュの有効期限（秒） */
   maxAge: number
   /** stale-while-revalidateの期間（秒） */
   staleWhileRevalidate?: number
+  /** falseを返す場合はキャッシュに保存しない（例: エラー結果をキャッシュしない） */
+  shouldCache?: (data: T) => boolean
 }
 
 // Cloudflare Workers固有のcaches.defaultを使用するための型
@@ -30,8 +32,9 @@ function getWorkersCache(): Cache {
  */
 export async function fetchWithCache<T>(
   url: string,
-  options: CacheOptions,
+  options: CacheOptions<T>,
   fetcher: () => Promise<T>,
+  waitUntil?: (promise: Promise<unknown>) => void,
 ): Promise<T> {
   // Workers環境でない場合は直接フェッチ
   if (!isWorkersEnvironment()) {
@@ -61,12 +64,15 @@ export async function fetchWithCache<T>(
       options.staleWhileRevalidate &&
       age < options.maxAge + options.staleWhileRevalidate
     ) {
-      // バックグラウンドで更新（waitUntilが使えない場合は無視）
-      fetcher()
+      // バックグラウンドで更新（waitUntilでWorkerのライフタイムを延長）
+      const revalidatePromise = fetcher()
         .then(async (newData) => {
-          await cacheResponse(cache, cacheKey, newData, options.maxAge)
+          if (options.shouldCache?.(newData) ?? true) {
+            await cacheResponse(cache, cacheKey, newData, options.maxAge)
+          }
         })
         .catch(console.error)
+      waitUntil?.(revalidatePromise)
 
       return cachedData as T
     }
@@ -74,7 +80,9 @@ export async function fetchWithCache<T>(
 
   // キャッシュがないか期限切れの場合は新規フェッチ
   const data = await fetcher()
-  await cacheResponse(cache, cacheKey, data, options.maxAge)
+  if (options.shouldCache?.(data) ?? true) {
+    await cacheResponse(cache, cacheKey, data, options.maxAge)
+  }
 
   return data
 }

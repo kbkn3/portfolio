@@ -14,11 +14,26 @@ export interface OgScraperResult {
 
 const OG_FETCH_TIMEOUT_MS = 8000
 
+const BLOCKED_HOSTNAMES = [
+  "x.com",
+  "www.x.com",
+  "twitter.com",
+  "www.twitter.com",
+]
+
+function isBlockedDomain(url: string): boolean {
+  try {
+    return BLOCKED_HOSTNAMES.includes(new URL(url).hostname)
+  } catch {
+    return false
+  }
+}
+
 /**
  * URLからOpen Graph情報を取得する
  */
 export async function fetchOgData(url: string): Promise<OgScraperResult> {
-  if (url.includes("x.com") || url.includes("twitter.com")) {
+  if (isBlockedDomain(url)) {
     return {
       requestUrl: url,
       success: false,
@@ -100,8 +115,7 @@ function extractOgData(
     ogDescription: getMeta("og:description") || getMeta("description"),
     ogImage: imageUrl ? { url: imageUrl } : undefined,
     ogUrl: getMeta("og:url"),
-    ogSiteName:
-      getMeta("og:site_name") || new URL(baseUrl).hostname || undefined,
+    ogSiteName: getMeta("og:site_name"),
   }
 }
 

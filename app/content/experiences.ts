@@ -149,7 +149,7 @@ export const experiences: ExperienceItem[] = [
           title: "麻雀何切るクイズSlackボット（GAS）",
         },
         {
-          url: "https://qiita.com/Kenta_Kobayashi/items/3b5be9224065663279f6",
+          url: "https://modern-jan.com/blog/luckyj_vs_naga_and_suphx/",
           title: "麻雀AI技術比較記事",
         },
       ],

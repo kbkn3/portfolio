@@ -28,7 +28,7 @@ export const releaseItems: TimelineItem[] = [
     type: "release",
     title:
       "Yahoo（@lycorptech_jp）から公開されたスマートフォンの画面上のタップの成功率を表示するツール「Tappy」( https://tappy.yahoo.co.jp )にインスパイアされたChrome拡張機能を作りました。\n\nCookieなどが必要な場合でも使いたかったのでTechBlogを参考に再現…！#UX #UI #a11y",
-    description: "Mリーグのオリジナルチームを作って応援するためのサイト",
+    description: "タップ成功率可視化ツール「Tappy」にインスパイアされたChrome拡張機能を開発",
     url: "https://x.com/kbkn3/status/1762030304695554279",
     date: "2024-02-26T08:22:00Z",
     imageUrl: "projects/tapAnalyzer.png",
@@ -66,7 +66,8 @@ export const techBlogItems: TimelineItem[] = [
     type: "tech-blog",
     title:
       "新卒エンジニアがリファクタを突貫したClean Architectureプロジェクトの舞台裏",
-    description: "これはTech Blogの記事サンプルです",
+    description:
+      "新卒1年目でClean Architectureプロジェクトのリファクタリングに奮闘した経験と学びをまとめた記事",
     url: "https://www.lifull.blog/entry/2023/04/04/170000",
     date: "2023-04-04T08:00:00Z",
     siteName: "LIFULL Creators Blog",
@@ -75,7 +76,8 @@ export const techBlogItems: TimelineItem[] = [
     id: generateStableId("techblog-tap-success-rate"),
     type: "tech-blog",
     title: "モバイルでのタップ成功率を可視化するツールの開発",
-    description: "これはTech Blogの記事サンプルです",
+    description:
+      "モバイルUIのタップ操作成功率を可視化するChrome拡張機能の設計・開発プロセスを解説",
     url: "https://www.lifull.blog/entry/2024/04/05/120000",
     date: "2024-04-05T03:00:00Z",
     siteName: "LIFULL Creators Blog",
@@ -84,7 +86,8 @@ export const techBlogItems: TimelineItem[] = [
     id: generateStableId("techblog-ab-test-platform"),
     type: "tech-blog",
     title: "社内A/Bテスト標準化に向けたA/Bテスト管理基盤プロトタイプの開発",
-    description: "これはTech Blogの記事サンプルです",
+    description:
+      "社内A/Bテストの標準化を目的とした実験管理基盤のプロトタイプ開発についての記録",
     url: "https://www.lifull.blog/entry/2024/08/27/170000",
     date: "2024-08-27T08:00:00Z",
     siteName: "LIFULL Creators Blog",
@@ -93,7 +96,8 @@ export const techBlogItems: TimelineItem[] = [
     id: generateStableId("techblog-ai-code-review"),
     type: "tech-blog",
     title: "内製AIコードレビューActionsの導入",
-    description: "これはTech Blogの記事サンプルです",
+    description:
+      "GitHub ActionsとClaude APIを活用した社内向けAIコードレビュー基盤の構築事例",
     url: "https://www.lifull.blog/entry/2025/03/31/190000",
     date: "2025-03-31T08:00:00Z",
     siteName: "LIFULL Creators Blog",

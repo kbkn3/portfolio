@@ -121,6 +121,9 @@ export type TechCategory = z.infer<typeof techCategorySchema>
 
 // ===== OG Data =====
 
+// ogImage はスクレイパーが { url: string } を返すが、
+// キャッシュされた旧フォーマット（文字列・配列）との後方互換性のため union 型を維持する。
+// resolveOgImageUrl() で正規化して使用すること。
 export const ogDataSchema = z.object({
   ogTitle: z.optional(z.string()),
   ogDescription: z.optional(z.string()),

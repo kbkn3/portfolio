@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import ExternalLinkIcon from "~/components/icons/ExternalLinkIcon"
 import GithubIcon from "~/components/icons/GithubIcon"
 import LinkIcon from "~/components/icons/LinkIcon"
@@ -30,26 +31,52 @@ const ExperienceDetailDialog = ({
   isOpen: boolean
   onClose: () => void
 }) => {
-  if (!exp) return null
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  // ダイアログが開いたときにフォーカスを移動する
+  useEffect(() => {
+    if (isOpen && dialogRef.current) {
+      dialogRef.current.focus()
+    }
+  }, [isOpen])
+
+  // Escapeキーでダイアログを閉じる
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isOpen, onClose])
+
+  if (!isOpen || !exp) return null
 
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity duration-300`}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black bg-opacity-70"
         onClick={onClose}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") onClose()
-        }}
         role="presentation"
       />
-      <div className="relative bg-gray-800 rounded-lg shadow-xl max-w-lg w-full max-h-[80vh] overflow-auto z-10 transform transition-transform duration-300">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`exp-dialog-title-${exp.id}`}
+        tabIndex={-1}
+        className="relative bg-gray-800 rounded-lg shadow-xl max-w-lg w-full max-h-[80vh] overflow-auto z-10 outline-none"
+      >
         <div className={`h-2 ${exp.color}`} />
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h2 className="text-xl font-bold text-white">{exp.title}</h2>
+              <h2
+                id={`exp-dialog-title-${exp.id}`}
+                className="text-xl font-bold text-white"
+              >
+                {exp.title}
+              </h2>
               <div className="text-sm text-gray-400 mt-1">{exp.period}</div>
               <div className="text-md font-medium text-gray-300 mt-1">
                 {exp.organization}

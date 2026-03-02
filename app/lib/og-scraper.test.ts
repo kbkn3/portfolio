@@ -1,9 +1,17 @@
-import { describe, expect, it, vi } from "vitest"
+import { afterAll, beforeEach, describe, expect, it, vi } from "vitest"
 import { fetchOgData } from "./og-scraper"
 
 // fetchをモック
 const mockFetch = vi.fn()
 vi.stubGlobal("fetch", mockFetch)
+
+beforeEach(() => {
+  mockFetch.mockReset()
+})
+
+afterAll(() => {
+  vi.unstubAllGlobals()
+})
 
 describe("fetchOgData", () => {
   it("x.comドメインはスキップする", async () => {

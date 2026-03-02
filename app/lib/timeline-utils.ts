@@ -1,15 +1,20 @@
 import type { TimelineItem } from "~/lib/schemas"
 
+const BLOCKED_HOSTNAMES = [
+  "x.com",
+  "www.x.com",
+  "twitter.com",
+  "www.twitter.com",
+]
+
 // URLからドメイン名を抽出する関数
 export const extractDomain = (url: string): string => {
   try {
-    // x.comドメインの場合は空文字を返す
-    if (url.includes("x.com") || url.includes("twitter.com")) {
+    const { hostname } = new URL(url)
+    if (BLOCKED_HOSTNAMES.includes(hostname)) {
       return ""
     }
-
-    const urlObj = new URL(url)
-    return urlObj.hostname
+    return hostname
   } catch (_e) {
     return ""
   }

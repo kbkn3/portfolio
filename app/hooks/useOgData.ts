@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { ogDataSchema } from "~/lib/schemas"
 import type { OgData } from "~/lib/schemas"
 
 // クライアント側OGデータキャッシュ（セッション中有効）
@@ -30,19 +31,35 @@ export function useOgData(
   const elementRef = useRef<HTMLDivElement>(null)
   const fetchedRef = useRef(false)
 
+  // urlが変わったらフェッチ済みフラグとステートをリセット
+  useEffect(() => {
+    fetchedRef.current = false
+    const cached = ogDataCache.get(url)
+    setOgData(cached ?? null)
+  }, [url])
+
   const fetchOgData = useCallback(async () => {
-    if (fetchedRef.current || ogData) return
+    if (fetchedRef.current) return
     fetchedRef.current = true
 
     try {
       const res = await fetch(`/api/og-data?url=${encodeURIComponent(url)}`)
-      const data: OgData = await res.json()
-      ogDataCache.set(url, data)
-      setOgData(data)
+      if (!res.ok) {
+        console.error(`OG data fetch failed: HTTP ${res.status}`)
+        return
+      }
+      const rawData = await res.json()
+      const parsed = ogDataSchema.safeParse(rawData)
+      if (!parsed.success) {
+        console.error("Invalid OG data response:", parsed.error)
+        return
+      }
+      ogDataCache.set(url, parsed.data)
+      setOgData(parsed.data)
     } catch (error) {
       console.error("Failed to fetch OG data:", error)
     }
-  }, [url, ogData])
+  }, [url])
 
   useEffect(() => {
     if (skip) return
@@ -50,7 +67,7 @@ export function useOgData(
     // キャッシュ済みの場合
     const cached = ogDataCache.get(url)
     if (cached) {
-      if (!ogData) setOgData(cached)
+      setOgData(cached)
       return
     }
 
@@ -69,7 +86,7 @@ export function useOgData(
 
     observer.observe(element)
     return () => observer.disconnect()
-  }, [url, ogData, skip, fetchOgData])
+  }, [url, skip, fetchOgData])
 
   return { ogData, elementRef }
 }

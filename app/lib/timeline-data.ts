@@ -18,7 +18,9 @@ const API_TIMEOUT_MS = 5000
 const CACHE_MAX_AGE = 3600
 const CACHE_STALE_WHILE_REVALIDATE = 86400
 
-const qiitaItems = async (): Promise<TimelineItem[]> => {
+const qiitaItems = async (
+  waitUntil?: (promise: Promise<unknown>) => void,
+): Promise<TimelineItem[]> => {
   const url = `https://qiita.com/api/v2/users/${QIITA_USER_ID}/items?page=1&per_page=100`
 
   return fetchWithCache(
@@ -60,12 +62,15 @@ const qiitaItems = async (): Promise<TimelineItem[]> => {
         return []
       }
     },
+    waitUntil,
   )
 }
 
 const ZENN_USER_ID = "kbkn3"
 
-const zennItems = async (): Promise<TimelineItem[]> => {
+const zennItems = async (
+  waitUntil?: (promise: Promise<unknown>) => void,
+): Promise<TimelineItem[]> => {
   const url = `https://zenn.dev/api/articles?username=${ZENN_USER_ID}&order=latest`
 
   return fetchWithCache(
@@ -107,11 +112,17 @@ const zennItems = async (): Promise<TimelineItem[]> => {
         return []
       }
     },
+    waitUntil,
   )
 }
 
-export async function getTimelineItems(): Promise<TimelineItem[]> {
-  const [qiitaData, zennData] = await Promise.all([qiitaItems(), zennItems()])
+export async function getTimelineItems(
+  waitUntil?: (promise: Promise<unknown>) => void,
+): Promise<TimelineItem[]> {
+  const [qiitaData, zennData] = await Promise.all([
+    qiitaItems(waitUntil),
+    zennItems(waitUntil),
+  ])
 
   return [
     ...releaseItems,
@@ -122,4 +133,3 @@ export async function getTimelineItems(): Promise<TimelineItem[]> {
   ]
 }
 
-export const TIMELINE_ITEMS: TimelineItem[] = []

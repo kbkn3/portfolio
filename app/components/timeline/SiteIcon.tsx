@@ -7,11 +7,6 @@ interface SiteIconProps {
 
 // サイトアイコンを取得するコンポーネント
 const SiteIcon = ({ url, size = 16 }: SiteIconProps) => {
-  // x.comやtwitter.comの場合は何も表示しない
-  if (url.includes("x.com") || url.includes("twitter.com")) {
-    return null
-  }
-
   const domain = extractDomain(url)
   if (!domain) return null
 

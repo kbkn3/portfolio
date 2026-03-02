@@ -28,6 +28,22 @@ describe("extractDomain", () => {
       "www.lifull.blog",
     )
   })
+
+  it("www.x.comも空文字を返す", () => {
+    expect(extractDomain("https://www.x.com/kbkn3")).toBe("")
+  })
+
+  it("www.twitter.comも空文字を返す", () => {
+    expect(extractDomain("https://www.twitter.com/kbkn3")).toBe("")
+  })
+
+  it("x.comを含む別ドメインはブロックしない", () => {
+    expect(extractDomain("https://mybox.com/path")).toBe("mybox.com")
+  })
+
+  it("twitterを含む別ドメインはブロックしない", () => {
+    expect(extractDomain("https://nottwitter.com/path")).toBe("nottwitter.com")
+  })
 })
 
 describe("getActionType", () => {

@@ -5,13 +5,22 @@ import { type OgScraperResult, fetchOgData } from "~/lib/og-scraper"
 const OG_CACHE_MAX_AGE = 86400 // 24時間
 const OG_CACHE_STALE_WHILE_REVALIDATE = 604800 // 7日間
 
-export async function loader({ request }: Route.LoaderArgs) {
+function isValidHttpUrl(raw: string): boolean {
+  try {
+    const { protocol } = new URL(raw)
+    return protocol === "http:" || protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
+export async function loader({ request, context }: Route.LoaderArgs) {
   const url = new URL(request.url)
   const targetUrl = url.searchParams.get("url")
 
-  if (!targetUrl) {
+  if (!targetUrl || !isValidHttpUrl(targetUrl)) {
     return Response.json(
-      { error: "URL parameter is required" },
+      { error: "Valid HTTP(S) URL parameter is required" },
       {
         status: 400,
         headers: { "Access-Control-Allow-Origin": "*" },
@@ -19,14 +28,20 @@ export async function loader({ request }: Route.LoaderArgs) {
     )
   }
 
+  const waitUntil = context?.cloudflare?.ctx?.waitUntil?.bind(
+    context.cloudflare.ctx,
+  )
+
   try {
     const data = await fetchWithCache<OgScraperResult>(
       `og-data:${targetUrl}`,
       {
         maxAge: OG_CACHE_MAX_AGE,
         staleWhileRevalidate: OG_CACHE_STALE_WHILE_REVALIDATE,
+        shouldCache: (d) => d.success,
       },
       () => fetchOgData(targetUrl),
+      waitUntil,
     )
 
     return Response.json(data, {
