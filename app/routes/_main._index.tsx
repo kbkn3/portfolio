@@ -40,10 +40,14 @@ export function meta() {
 /**
  * タイムラインページのデータを取得するloader
  */
-export async function loader() {
+export async function loader({ context }: Route.LoaderArgs) {
+  const waitUntil = context?.cloudflare?.ctx?.waitUntil?.bind(
+    context.cloudflare.ctx,
+  )
+
   try {
     // タイムラインデータを取得
-    const timelineItems = await getTimelineItems()
+    const timelineItems = await getTimelineItems(waitUntil)
 
     // 日付の新しい順にソート
     const sortedItems = timelineItems.sort(

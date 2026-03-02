@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { resolveOgImageUrl, useOgData } from "~/hooks/useOgData"
 import type { TimelineItem } from "~/lib/timeline-data"
 import {
   getActionLabel,
@@ -13,97 +13,24 @@ interface TimelineItemCardProps {
   item: TimelineItem
 }
 
-interface OgData {
-  ogTitle?: string
-  ogDescription?: string
-  ogImage?: string | { url: string }[] | { url: string }
-  ogSiteName?: string
-  success: boolean
-}
-
-// クライアント側OGデータキャッシュ（セッション中有効）
-const ogDataCache = new Map<string, OgData>()
-
-// タイムラインアイテムカード
 const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
-  const [ogData, setOgData] = useState<OgData | null>(() => {
-    // 初期化時にキャッシュを確認
-    return ogDataCache.get(item.url) || null
-  })
-  const elementRef = useRef<HTMLDivElement>(null)
-  const fetchedRef = useRef(false) // フェッチ済みフラグ
+  const skipOg = !!(item.title && item.description && item.imageUrl)
+  const { ogData, elementRef } = useOgData(item.url, { skip: skipOg })
 
   const date = new Date(item.date)
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
-
-  // OGデータをフェッチする関数
-  const fetchOgData = useCallback(async () => {
-    if (fetchedRef.current || ogData) return
-    fetchedRef.current = true
-
-    try {
-      const res = await fetch(`/api/og-data?url=${encodeURIComponent(item.url)}`)
-      const data: OgData = await res.json()
-      ogDataCache.set(item.url, data)
-      setOgData(data)
-    } catch (error) {
-      console.error("Failed to fetch OG data:", error)
-    }
-  }, [item.url, ogData])
-
-  // OGデータの遅延読み込み
-  useEffect(() => {
-    // title, description, imageUrlが既にある場合はOGデータ取得不要
-    if (item.title && item.description && item.imageUrl) {
-      return
-    }
-
-    // キャッシュ済みの場合はスキップ
-    if (ogDataCache.has(item.url)) {
-      if (!ogData) {
-        setOgData(ogDataCache.get(item.url)!)
-      }
-      return
-    }
-
-    const element = elementRef.current
-    if (!element) return
-
-    // Intersection Observerで可視範囲に入ったら読み込み
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchOgData()
-          observer.disconnect() // 一度フェッチしたらobserverを解除
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" }, // 少し早めにフェッチ開始
-    )
-
-    observer.observe(element)
-
-    return () => observer.disconnect()
-  }, [item.title, item.description, item.imageUrl, item.url, ogData, fetchOgData])
 
   // OGデータから表示用データを取得
   const displayTitle =
     item.title || (ogData?.success ? ogData.ogTitle : item.title) || ""
   const displayImageUrl =
     item.imageUrl ||
-    (ogData?.success
-      ? ogData.ogImage
-        ? Array.isArray(ogData.ogImage)
-          ? ogData.ogImage[0]?.url
-          : typeof ogData.ogImage === "string"
-            ? ogData.ogImage
-            : ogData.ogImage.url
-        : undefined
-      : undefined)
+    (ogData?.success ? resolveOgImageUrl(ogData.ogImage) : undefined)
   const displaySiteName =
     item.siteName || (ogData?.success ? ogData.ogSiteName : undefined)
 
-  // Twitterの場合、releaseタイプでsiteNameがTwitterの場合、またはshowAsTweetがtrueの場合は専用コンポーネントを使用
+  // Tweet表示判定
   if (
     item.type === "twitter" ||
     (item.type === "release" && displaySiteName === "Twitter") ||
@@ -114,10 +41,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
         ref={elementRef}
         className="flex items-start group relative pl-10 pb-10"
       >
-        {/* 縦線 */}
         <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
-
-        {/* アイコン */}
         <div className="absolute left-0 -top-1 flex items-center justify-center w-7 h-7 rounded-full bg-blue-900/30 border-blue-700 border-2 z-10">
           {item.type === "twitter" ? (
             <TwitterIcon />
@@ -127,7 +51,6 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
         </div>
 
         <div className="flex-grow">
-          {/* カード上部の情報 */}
           <div className="flex items-center gap-2 mb-2">
             {item.type === "twitter" ? (
               <span className="text-sm font-medium text-blue-400">Tweeted</span>
@@ -171,10 +94,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
       ref={elementRef}
       className="flex items-start group relative pl-10 pb-10"
     >
-      {/* 縦線 */}
       <div className="absolute left-3.5 top-0 h-full w-px bg-gray-700 group-last:h-6" />
-
-      {/* アイコン */}
       <div
         className={`absolute left-0 -top-1 flex items-center justify-center w-7 h-7 rounded-full ${iconBgColorClass} border-2 z-10`}
       >
@@ -182,7 +102,6 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
       </div>
 
       <div className="flex-grow overflow-hidden">
-        {/* カード上部の情報 */}
         <div className="flex items-center gap-2 mb-2">
           {actionType === "released" ? (
             <>

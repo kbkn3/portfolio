@@ -1,41 +1,39 @@
+import { parse } from "node-html-parser"
 import { fetchWithTimeout } from "./cache"
 
-// OGデータの型定義
-export type OgData = {
+export interface OgScraperResult {
   ogTitle?: string
   ogDescription?: string
-  ogImage?:
-    | {
-        url: string
-        width?: string | number
-        height?: string | number
-        type?: string
-      }
-    | {
-        url: string
-        width?: string | number
-        height?: string | number
-        type?: string
-      }[]
+  ogImage?: { url: string }
   ogUrl?: string
   ogSiteName?: string
   requestUrl: string
   success: boolean
   error?: string
-  // biome-ignore lint/suspicious/noExplicitAny: 多様なプロパティを含む可能性がある
-  [key: string]: any
 }
 
-const OG_FETCH_TIMEOUT_MS = 8000 // 8秒タイムアウト
+const OG_FETCH_TIMEOUT_MS = 8000
+
+const BLOCKED_HOSTNAMES = [
+  "x.com",
+  "www.x.com",
+  "twitter.com",
+  "www.twitter.com",
+]
+
+function isBlockedDomain(url: string): boolean {
+  try {
+    return BLOCKED_HOSTNAMES.includes(new URL(url).hostname)
+  } catch {
+    return false
+  }
+}
 
 /**
  * URLからOpen Graph情報を取得する
- * @param url 取得対象のURL
- * @returns Open Graph情報
  */
-export async function fetchOgData(url: string): Promise<OgData> {
-  // x.comドメインの場合は取得をスキップ
-  if (url.includes("x.com") || url.includes("twitter.com")) {
+export async function fetchOgData(url: string): Promise<OgScraperResult> {
+  if (isBlockedDomain(url)) {
     return {
       requestUrl: url,
       success: false,
@@ -44,7 +42,6 @@ export async function fetchOgData(url: string): Promise<OgData> {
   }
 
   try {
-    // URLからHTMLを取得（タイムアウト付き）
     const response = await fetchWithTimeout(
       url,
       {
@@ -57,14 +54,14 @@ export async function fetchOgData(url: string): Promise<OgData> {
     )
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch URL: ${response.status} ${response.statusText}`,
-      )
+      return {
+        requestUrl: url,
+        success: false,
+        error: `HTTP ${response.status} ${response.statusText}`,
+      }
     }
 
     const html = await response.text()
-
-    // HTMLからOGデータを抽出
     const ogData = extractOgData(html, url)
 
     return {
@@ -73,7 +70,6 @@ export async function fetchOgData(url: string): Promise<OgData> {
       success: true,
     }
   } catch (error) {
-    // タイムアウトエラーの場合は専用メッセージ
     if (error instanceof Error && error.name === "AbortError") {
       console.error(`OG data fetch timeout for ${url}`)
       return {
@@ -93,60 +89,40 @@ export async function fetchOgData(url: string): Promise<OgData> {
 }
 
 /**
- * HTMLからOGデータを抽出する
- * @param html HTML文字列
- * @param baseUrl ベースURL
- * @returns 抽出したOGデータ
+ * node-html-parser を使って HTML から OG データを抽出する
  */
-function extractOgData(html: string, baseUrl: string): Partial<OgData> {
-  const ogData: Partial<OgData> = {}
+function extractOgData(
+  html: string,
+  baseUrl: string,
+): Partial<OgScraperResult> {
+  const root = parse(html)
 
-  // メタタグを正規表現で抽出
-  const metaTagRegex =
-    /<meta[^>]+property=["']og:([^"']+)["'][^>]+content=["']([^"']+)["'][^>]*>|<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:([^"']+)["'][^>]*>/gi
-
-  let match: RegExpExecArray | null = null
-  while (true) {
-    match = metaTagRegex.exec(html)
-    if (match === null) break
-
-    const property = match[1] || match[4]
-    const content = match[2] || match[3]
-
-    if (property && content) {
-      if (property === "image") {
-        // 画像URLを絶対URLに変換
-        const imageUrl = resolveUrl(content, baseUrl)
-        ogData.ogImage = { url: imageUrl }
-      } else {
-        // プロパティ名をogプレフィックス付きに変換
-        ogData[`og${property.charAt(0).toUpperCase()}${property.slice(1)}`] =
-          content
-      }
-    }
+  const getMeta = (property: string): string | undefined => {
+    const el =
+      root.querySelector(`meta[property="${property}"]`) ??
+      root.querySelector(`meta[name="${property}"]`)
+    return el?.getAttribute("content") || undefined
   }
 
-  // タイトルタグをフォールバックとして使用
-  if (!ogData.ogTitle) {
-    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i)
-    if (titleMatch?.[1]) {
-      ogData.ogTitle = titleMatch[1].trim()
-    }
-  }
+  const rawImageUrl = getMeta("og:image")
+  const imageUrl = rawImageUrl ? resolveUrl(rawImageUrl, baseUrl) : undefined
 
-  return ogData
+  return {
+    ogTitle:
+      getMeta("og:title") ||
+      root.querySelector("title")?.text?.trim() ||
+      undefined,
+    ogDescription: getMeta("og:description") || getMeta("description"),
+    ogImage: imageUrl ? { url: imageUrl } : undefined,
+    ogUrl: getMeta("og:url"),
+    ogSiteName: getMeta("og:site_name"),
+  }
 }
 
-/**
- * 相対URLを絶対URLに解決する
- * @param url 解決する相対URL
- * @param base ベースURL
- * @returns 絶対URL
- */
 function resolveUrl(url: string, base: string): string {
   try {
     return new URL(url, base).toString()
-  } catch (_) {
+  } catch {
     return url
   }
 }
