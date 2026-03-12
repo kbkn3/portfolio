@@ -5,6 +5,7 @@ export function meta() {
       name: "description",
       content: "Sono Habitのプライバシーポリシー",
     },
+    { rel: "canonical", href: "https://kbkn3.com/sono-habit/privacy" },
     { name: "robots", content: "noindex, nofollow" },
   ]
 }

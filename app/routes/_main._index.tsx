@@ -21,9 +21,12 @@ export function meta() {
         "https://ogp-image-creator.ken0421wabu.workers.dev/portfolio?title=TIMELINE",
     },
     { property: "og:image:alt", content: "kbkn3's timeline thumbnail" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
 
     // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:domain", content: "kbkn3.com" },
     { name: "twitter:site", content: "@kbkn3" },
     { name: "twitter:creator", content: "@kbkn3" },
     { name: "twitter:title", content: "Timeline | kbkn3's portfolio" },
