@@ -46,7 +46,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "kbkn3",
+              name: "小林建太",
+              alternateName: ["Kenta Kobayashi", "kbkn3"],
               url: "https://kbkn3.com",
               sameAs: ["https://twitter.com/kbkn3", "https://github.com/kbkn3"],
             }),
