@@ -18,6 +18,7 @@ export function loader() {
 }
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -37,6 +38,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="language" content="ja" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="author" content="kbkn3" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "kbkn3",
+              url: "https://kbkn3.com",
+              sameAs: ["https://twitter.com/kbkn3", "https://github.com/kbkn3"],
+            }),
+          }}
+        />
         {/* セキュリティ関連 */}
         <meta
           httpEquiv="Content-Security-Policy"

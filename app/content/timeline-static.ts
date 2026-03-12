@@ -28,7 +28,8 @@ export const releaseItems: TimelineItem[] = [
     type: "release",
     title:
       "Yahoo（@lycorptech_jp）から公開されたスマートフォンの画面上のタップの成功率を表示するツール「Tappy」( https://tappy.yahoo.co.jp )にインスパイアされたChrome拡張機能を作りました。\n\nCookieなどが必要な場合でも使いたかったのでTechBlogを参考に再現…！#UX #UI #a11y",
-    description: "タップ成功率可視化ツール「Tappy」にインスパイアされたChrome拡張機能を開発",
+    description:
+      "タップ成功率可視化ツール「Tappy」にインスパイアされたChrome拡張機能を開発",
     url: "https://x.com/kbkn3/status/1762030304695554279",
     date: "2024-02-26T08:22:00Z",
     imageUrl: "projects/tapAnalyzer.png",
