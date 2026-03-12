@@ -47,7 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               "@context": "https://schema.org",
               "@type": "Person",
               name: "小林建太",
-              alternateName: ["Kenta Kobayashi", "kbkn3"],
+              alternateName: ["Kenta Kobayashi", "kbkn3", "こばけん"],
               url: "https://kbkn3.com",
               sameAs: ["https://twitter.com/kbkn3", "https://github.com/kbkn3"],
             }),
