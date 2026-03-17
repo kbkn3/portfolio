@@ -16,11 +16,8 @@ const TweetCard = ({
   imageUrl,
   date,
 }: TweetCardProps) => {
-  const formattedDate = new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
+  const d = new Date(date)
+  const formattedDate = `${d.getUTCFullYear()}年${d.getUTCMonth() + 1}月${d.getUTCDate()}日`
 
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors p-4 w-full">

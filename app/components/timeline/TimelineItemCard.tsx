@@ -18,7 +18,7 @@ const TimelineItemCard = ({ item }: TimelineItemCardProps) => {
   const { ogData, elementRef } = useOgData(item.url, { skip: skipOg })
 
   const date = new Date(item.date)
-  const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`
+  const formattedDate = `${(date.getUTCMonth() + 1).toString().padStart(2, "0")}/${date.getUTCDate().toString().padStart(2, "0")}`
   const actionType = getActionType(item.type)
 
   // OGデータから表示用データを取得
