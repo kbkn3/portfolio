@@ -45,6 +45,30 @@ export const projects: Project[] = [
     tags: ["TypeScript", "React", "Tailwind CSS"],
   },
   {
+    title: "モダンジャン研究会HP（Astro移行版）",
+    description:
+      "モダンジャン研究会の公式サイトをWordPressからAstroへ移行したプロジェクト",
+    link: "https://github.com/ModernMahjongSociety/modern-jan-com",
+    serviceTitle: "サイトを見る",
+    serviceUrl: "https://modern-jong.com",
+    tags: ["Astro", "MDX", "Cloudflare Pages"],
+  },
+  {
+    title: "mj-tiles",
+    description:
+      "MDXやJSXで麻雀牌を簡単に表示するためのマルチフレームワーク対応ライブラリ",
+    link: "https://github.com/ModernMahjongSociety/mj-tiles",
+    serviceTitle: "npm",
+    serviceUrl: "https://www.npmjs.com/package/mj-tiles",
+    tags: ["TypeScript", "React", "Astro", "MDX"],
+  },
+  {
+    title: "hono-bun-cleanArchitecture",
+    description: "HonoとBunを使ったクリーンアーキテクチャのデモプロジェクト",
+    link: "https://github.com/kbkn3/hono-bun-cleanArchitecture",
+    tags: ["TypeScript", "Hono", "Bun", "Inversify"],
+  },
+  {
     title: "現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変 資料集",
     description:
       "このリポジトリは、小説家になろうの小説「現代社会で乙女ゲームの悪役令嬢をするのはちょっと大変」のファンサイト",
