@@ -20,7 +20,7 @@ const TimelineSection = ({
   // 年ごとにグループ化
   const itemsByYear = filteredItems.reduce<Record<number, TimelineItem[]>>(
     (acc, item) => {
-      const year = new Date(item.date).getFullYear()
+      const year = new Date(item.date).getUTCFullYear()
       if (!acc[year]) {
         acc[year] = []
       }
